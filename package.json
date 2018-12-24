@@ -1,0 +1,26 @@
+{
+  "name": "grafana-plugin-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CorpGlory/grafana-plugin-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CorpGlory/grafana-plugin-cli/issues"
+  },
+  "homepage": "https://github.com/CorpGlory/grafana-plugin-cli#readme",
+  "devDependencies": {
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.1.2"
+  }
+}
