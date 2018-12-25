@@ -8,6 +8,6 @@ No build configuration needed.
 Just run CLI commands and choose wether your plugin will be:
 - `Panel`, `Metric panel` or `Datasource`
 - react or angular
-- written in typescript or javascript
+- Typescript or Javascript
 
 Based upon grafana template webpack plugin https://github.com/CorpGlory/grafana-plugin-template-webpack.
