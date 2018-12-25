@@ -2,11 +2,10 @@
   "name": "grafana-plugin-cli",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
-    "dev": "webpack --mode development"
+    "build": "webpack --mode production --config build/webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -14,13 +13,17 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/CorpGlory/grafana-plugin-cli/issues"
   },
   "homepage": "https://github.com/CorpGlory/grafana-plugin-cli#readme",
   "devDependencies": {
-    "webpack": "^4.12.0",
+    "@webpack-cli/init": "^0.1.2",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2"
   }
 }
