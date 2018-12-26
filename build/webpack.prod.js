@@ -15,29 +15,44 @@ const path = require('path');
  */
 
 module.exports = {
+  target: 'node',
 	module: {
 		rules: [
-			{
-				include: [path.resolve(__dirname, 'src')],
-				loader: 'babel-loader',
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
 
-				options: {
-					plugins: ['syntax-dynamic-import'],
+      {
+        include: [path.resolve(__dirname, 'src')],
+        loader: 'babel-loader',
+        options: {
+          plugins: ['syntax-dynamic-import'],
+          presets: [
+            [
+              'env',
+              {
+                modules: false
+              }
+            ]
+          ]
+        },
+        test: /\.js$/
+      }
+    ]
+  },
 
-					presets: [
-						[
-							'env',
-							{
-								modules: false
-							}
-						]
-					]
-				},
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
 
-				test: /\.js$/
-			}
-		]
-	},
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  
+  entry: './src/index.ts',
 
 	mode: 'production',
 
