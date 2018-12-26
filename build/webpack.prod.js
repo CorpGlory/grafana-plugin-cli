@@ -16,8 +16,8 @@ const path = require('path');
 
 module.exports = {
   target: 'node',
-	module: {
-		rules: [
+  module: {
+    rules: [
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
@@ -49,26 +49,26 @@ module.exports = {
 
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve('dist')
   },
   
   entry: './src/index.ts',
 
-	mode: 'production',
+  mode: 'production',
 
-	optimization: {
-		splitChunks: {
-			cacheGroups: {
-				vendors: {
-					priority: -10,
-					test: /[\\/]node_modules[\\/]/
-				}
-			},
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          priority: -10,
+          test: /[\\/]node_modules[\\/]/
+        }
+      },
 
-			chunks: 'async',
-			minChunks: 1,
-			minSize: 30000,
-			name: false
-		}
-	}
+      chunks: 'async',
+      minChunks: 1,
+      minSize: 30000,
+      name: false
+    }
+  }
 };

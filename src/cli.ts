@@ -8,6 +8,10 @@ let userInput = {
   style: ''
 }
 
+function separate() {
+  console.log('-----------------------------');
+}
+
 async function collectUserInput() {
   let response;
 
@@ -23,21 +27,21 @@ async function collectUserInput() {
       }
     }
   }
-  console.log('-----------------------------');
+  separate();
   response = await inquirer.prompt(askPluginName);
   userInput.pluginName = response.pluginName;
 
   let askPluginType = {
     name: 'pluginType',
     type: 'list',
-    message: 'Choose plugin type',
+    message: 'Choose plugin type:',
     choices: [
       'Panel',
       'Metric panel',
       'Datasource'
     ]
   }
-  console.log('-----------------------------');
+  separate();
   response = await inquirer.prompt(askPluginType);
   if (response.pluginType === 'Metric panel') {
     response.pluginType = 'MetricPanel'
@@ -47,49 +51,49 @@ async function collectUserInput() {
   let askFramework = {
     name: 'framework',
     type: 'list',
-    message: 'Choose framework',
+    message: 'Choose framework:',
     choices: [
       'angular',
       'react'
     ]
   }
-  console.log('-----------------------------');
+  separate();
   response = await inquirer.prompt(askFramework);
   userInput.framework = response.framework;
 
   let askLanguage = {
     name: 'language',
     type: 'list',
-    message: 'Choose language',
+    message: 'Choose language:',
     choices: [
       'Typescript',
       'Javascript'
     ]
   }
-  console.log('-----------------------------');
+  separate();
   response = await inquirer.prompt(askLanguage);
   userInput.language = response.language;
 
   let askStyle = {
     name: 'style',
     type: 'list',
-    message: 'CSS or SASS',
+    message: 'CSS or SASS:',
     choices: [
       'CSS',
       'SASS'
     ]
   }
-  console.log('-----------------------------');
+  separate();
   response = await inquirer.prompt(askStyle);
   userInput.style = response.style;
 }
 
 export async function runCLI() {
-  console.log('-----------------------------');
+  separate();
   console.log('Welcome to Grafana-plugin-cli');
 
   await collectUserInput();
 
-  console.log('For debugging - below is collected user input')
-  console.log(userInput)
+  separate();
+  console.log('Your plugin is being assembled!')
 }

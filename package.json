@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --config jest.config.js",
     "build": "webpack --mode production --config build/webpack.prod.js",
-    "start": "node ./build/dist/bundle.js"
+    "start": "node ./dist/bundle.js"
   },
   "repository": {
     "type": "git",
