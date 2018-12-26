@@ -15,45 +15,60 @@ const path = require('path');
  */
 
 module.exports = {
-	module: {
-		rules: [
-			{
-				include: [path.resolve(__dirname, 'src')],
-				loader: 'babel-loader',
+  target: 'node',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
 
-				options: {
-					plugins: ['syntax-dynamic-import'],
+      {
+        include: [path.resolve(__dirname, 'src')],
+        loader: 'babel-loader',
+        options: {
+          plugins: ['syntax-dynamic-import'],
+          presets: [
+            [
+              'env',
+              {
+                modules: false
+              }
+            ]
+          ]
+        },
+        test: /\.js$/
+      }
+    ]
+  },
 
-					presets: [
-						[
-							'env',
-							{
-								modules: false
-							}
-						]
-					]
-				},
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
 
-				test: /\.js$/
-			}
-		]
-	},
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve('dist')
+  },
+  
+  entry: './src/index.ts',
 
-	mode: 'production',
+  mode: 'production',
 
-	optimization: {
-		splitChunks: {
-			cacheGroups: {
-				vendors: {
-					priority: -10,
-					test: /[\\/]node_modules[\\/]/
-				}
-			},
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          priority: -10,
+          test: /[\\/]node_modules[\\/]/
+        }
+      },
 
-			chunks: 'async',
-			minChunks: 1,
-			minSize: 30000,
-			name: false
-		}
-	}
+      chunks: 'async',
+      minChunks: 1,
+      minSize: 30000,
+      name: false
+    }
+  }
 };
