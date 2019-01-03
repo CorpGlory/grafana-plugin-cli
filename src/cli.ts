@@ -1,6 +1,8 @@
+import { TemplateConfig } from './template_config';
+
 import * as inquirer from 'inquirer';
 
-let userInput = {
+let userInput: TemplateConfig = {
   pluginName: '',
   pluginType: '',
   framework: '',
@@ -34,7 +36,7 @@ async function collectUserInput() {
   let askPluginType = {
     name: 'pluginType',
     type: 'list',
-    message: 'Choose plugin type:',
+    message: 'Plugin type:',
     choices: [
       'Panel',
       'Datasource'
@@ -47,10 +49,10 @@ async function collectUserInput() {
   let askFramework = {
     name: 'framework',
     type: 'list',
-    message: 'Choose framework:',
+    message: 'UI Framework:',
     choices: [
-      'angular',
-      'react'
+      'AngularJS',
+      'React'
     ]
   }
   separate();
@@ -60,10 +62,10 @@ async function collectUserInput() {
   let askLanguage = {
     name: 'language',
     type: 'list',
-    message: 'Choose language:',
+    message: 'Language:',
     choices: [
-      'Typescript',
-      'Javascript'
+      'Javascript',
+      'Typescript'
     ]
   }
   separate();
@@ -73,8 +75,9 @@ async function collectUserInput() {
   let askStyle = {
     name: 'style',
     type: 'list',
-    message: 'CSS or SASS:',
+    message: 'Styles:',
     choices: [
+      '(no styles)',
       'CSS',
       'SASS'
     ]
