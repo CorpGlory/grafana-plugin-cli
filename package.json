@@ -1,11 +1,12 @@
 {
   "name": "grafana-plugin-cli",
   "version": "0.0.1",
-  "description": "",
+  "description": "CLI tool for generation Grafana plugin project in different confs",
   "main": "index.ts",
   "scripts": {
     "test": "jest --config jest.config.js",
-    "build": "webpack --mode production --config build/webpack.prod.js",
+    "build": "webpack --config build/webpack.prod.conf.js",
+    "dev": "webpack --config build/webpack.dev.conf.js",
     "start": "node ./dist/bundle.js"
   },
   "repository": {
