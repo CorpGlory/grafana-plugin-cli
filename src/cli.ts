@@ -37,15 +37,11 @@ async function collectUserInput() {
     message: 'Choose plugin type:',
     choices: [
       'Panel',
-      'Metric panel',
       'Datasource'
     ]
   }
   separate();
   response = await inquirer.prompt(askPluginType);
-  if (response.pluginType === 'Metric panel') {
-    response.pluginType = 'MetricPanel'
-  }
   userInput.pluginType = response.pluginType;
 
   let askFramework = {
