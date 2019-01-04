@@ -1,20 +1,23 @@
-import { TemplateConfig } from './template_config';
+import { TemplateOptions, PluginType } from './template_options';
 
 import * as inquirer from 'inquirer';
 
-let userInput: TemplateConfig = {
-  pluginName: '',
-  pluginType: '',
-  framework: '',
-  language: '',
-  style: ''
-}
 
 function separate() {
   console.log('-----------------------------');
 }
 
-async function collectUserInput() {
+async function collectUserInput(): Promise<TemplateOptions> {
+
+  let userInput: TemplateOptions = {
+    id: '',
+    pluginName: '',
+    pluginType: PluginType.Datasource,
+    framework: '',
+    language: '',
+    style: ''
+  }
+
   let response;
 
   let askPluginName = {
@@ -85,13 +88,15 @@ async function collectUserInput() {
   separate();
   response = await inquirer.prompt(askStyle);
   userInput.style = response.style;
+
+  return userInput;
 }
 
 export async function runCLI() {
   separate();
   console.log('Welcome to Grafana-plugin-cli');
 
-  await collectUserInput();
+  var userInput: TemplateOptions = await collectUserInput();
 
   separate();
   console.log('Your plugin is being assembled!')
