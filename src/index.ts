@@ -16,7 +16,6 @@ export async function runCLI() {
 
   separate();
   console.log('Your plugin is being assembled!')
-
 }
 
 runCLI();
