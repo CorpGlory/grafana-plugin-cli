@@ -6,8 +6,8 @@ Create Grafana plugins that suit your needs.
 
 No build configuration needed. 
 Just run CLI commands and choose wether your plugin will be:
-- `Panel`, `Metric panel` or `Datasource`
-- react or angular
-- Typescript or Javascript
+- Panel / Datasource
+- React / AngularJS
+- TypeScript / JavaScript
 
 Based upon grafana template webpack plugin https://github.com/CorpGlory/grafana-plugin-template-webpack.
