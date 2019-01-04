@@ -1,7 +1,7 @@
-export enum PluginType { Datasource, Panel }
-export enum Framework { Angular, React }
-export enum Language { JavaScript, TypeScript }
-export enum Style { CSS, SASS }
+export enum PluginType { Datasource = 1, Panel }
+export enum Framework { Angular = 1, React }
+export enum Language { JavaScript = 1, TypeScript }
+export enum Style { CSS = 1, SASS }
 
 
 export class TemplateOptions {

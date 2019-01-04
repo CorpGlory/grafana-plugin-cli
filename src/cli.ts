@@ -1,4 +1,4 @@
-import { TemplateOptions, PluginType } from './template_options';
+import * as TemplateOptions from './template_options';
 
 import * as inquirer from 'inquirer';
 
@@ -7,12 +7,13 @@ function separate() {
   console.log('-----------------------------');
 }
 
-async function collectUserInput(): Promise<TemplateOptions> {
 
-  let userInput: TemplateOptions = {
+export async function collectUserInput(): Promise<TemplateOptions.TemplateOptions> {
+
+  let userInput: TemplateOptions.TemplateOptions = {
     id: '',
     pluginName: '',
-    pluginType: PluginType.Datasource,
+    pluginType: TemplateOptions.PluginType.Datasource,
     framework: '',
     language: '',
     style: ''
@@ -25,7 +26,7 @@ async function collectUserInput(): Promise<TemplateOptions> {
     type: 'input',
     message: 'Enter your plugin name:',
     validate: function (value) {
-      if (value.length) {
+      if (value.length > 0) {
         return true;
       } else {
         return 'Please provide at least 1 character as a name.';
@@ -41,12 +42,12 @@ async function collectUserInput(): Promise<TemplateOptions> {
     type: 'list',
     message: 'Plugin type:',
     choices: [
-      'Panel',
-      'Datasource'
+      { name: 'Panel', value: TemplateOptions.PluginType.Panel },
+      { name: 'Datasource', value: TemplateOptions.PluginType.Datasource }
     ]
   }
   separate();
-  response = await inquirer.prompt(askPluginType);
+  response = await inquirer.prompt<TemplateOptions.PluginType>(askPluginType);
   userInput.pluginType = response.pluginType;
 
   let askFramework = {
@@ -54,12 +55,12 @@ async function collectUserInput(): Promise<TemplateOptions> {
     type: 'list',
     message: 'UI Framework:',
     choices: [
-      'AngularJS',
-      'React'
+      { name: 'AngularJS', value: TemplateOptions.Framework.Angular },
+      { name: 'React', value: TemplateOptions.Framework.React }
     ]
   }
   separate();
-  response = await inquirer.prompt(askFramework);
+  response = await inquirer.prompt<TemplateOptions.Framework>(askFramework);
   userInput.framework = response.framework;
 
   let askLanguage = {
@@ -67,37 +68,29 @@ async function collectUserInput(): Promise<TemplateOptions> {
     type: 'list',
     message: 'Language:',
     choices: [
-      'Javascript',
-      'Typescript'
+      { name: 'JavaScript', value: TemplateOptions.Language.JavaScript },
+      { name: 'TypeScript', value: TemplateOptions.Language.TypeScript }
     ]
   }
   separate();
-  response = await inquirer.prompt(askLanguage);
+  response = await inquirer.prompt<TemplateOptions.Language>(askLanguage);
   userInput.language = response.language;
 
   let askStyle = {
     name: 'style',
     type: 'list',
-    message: 'Styles:',
+    message: 'Styles type:',
     choices: [
-      '(no styles)',
-      'CSS',
-      'SASS'
+      { name: '(no styles)', value: null },
+      { name: 'CSS', value: TemplateOptions.Style.CSS },
+      { name: 'SASS', value: TemplateOptions.Style.SASS }
     ]
   }
   separate();
-  response = await inquirer.prompt(askStyle);
+  response = await inquirer.prompt<TemplateOptions.Style | null>(askStyle);
   userInput.style = response.style;
 
   return userInput;
 }
 
-export async function runCLI() {
-  separate();
-  console.log('Welcome to Grafana-plugin-cli');
 
-  var userInput: TemplateOptions = await collectUserInput();
-
-  separate();
-  console.log('Your plugin is being assembled!')
-}
