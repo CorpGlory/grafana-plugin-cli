@@ -1,4 +1,5 @@
 import * as TemplateOptions from './template_options';
+import * as _ from 'lodash';
 
 import * as inquirer from 'inquirer';
 
@@ -8,9 +9,8 @@ function separate() {
 }
 
 
-const QUESTIONS_DB = [
-  {
-    name: 'pluginName',
+const QUESTIONS_DB = {
+  pluginName: {
     type: 'input',
     message: 'Enter your plugin name:',
     validate: function (value) {
@@ -21,8 +21,7 @@ const QUESTIONS_DB = [
       }
     }
   },
-  {
-    name: 'pluginType',
+  pluginType: {
     type: 'list',
     message: 'Plugin type:',
     choices: [
@@ -30,8 +29,7 @@ const QUESTIONS_DB = [
       { name: 'Datasource', value: TemplateOptions.PluginType.Datasource }
     ]
   },
-  {
-    name: 'framework',
+  framework: {
     type: 'list',
     message: 'UI Framework:',
     choices: [
@@ -39,8 +37,7 @@ const QUESTIONS_DB = [
       { name: 'React', value: TemplateOptions.Framework.React }
     ]
   },
-  {
-    name: 'language',
+  language: {
     type: 'list',
     message: 'Language:',
     choices: [
@@ -48,8 +45,7 @@ const QUESTIONS_DB = [
       { name: 'TypeScript', value: TemplateOptions.Language.TypeScript }
     ]
   },
-  {
-    name: 'style',
+  style: {
     type: 'list',
     message: 'Styles type:',
     choices: [
@@ -59,8 +55,30 @@ const QUESTIONS_DB = [
     ]
   }
 
-]
+}
 
+function getFromDBAndSetByName(id): inquirer.Question {
+  let obj = _.clone(QUESTIONS_DB[id]);
+  obj.name = id;
+  return obj;
+}
+
+
+
+var myIterable = {
+  *[Symbol.iterator]() {
+    yield 1;
+    yield 2;
+    yield 3;
+  }
+}
+function* questionsGen(): IterableIterator<inquirer.Question> {
+  
+  var g = getFromDBAndSetByName;
+  
+  yield g('pluginName');
+  yield g('pluginType');
+}
 
 export async function collectUserInput(): Promise<TemplateOptions.TemplateOptions> {
 
@@ -70,10 +88,15 @@ export async function collectUserInput(): Promise<TemplateOptions.TemplateOption
     pluginType: TemplateOptions.PluginType.Datasource,
     framework: '',
     language: '',
-    style: ''
+    style: null
   }
 
-  userInput = await inquirer.prompt<TemplateOptions.TemplateOptions>(QUESTIONS_DB);
+  let quetsionsGen = questionsGen();
+
+  console.log(quetsionsGen.next());
+  console.log(quetsionsGen.next());
+  console.log(quetsionsGen.next());
+  
 
   return userInput;
 }
