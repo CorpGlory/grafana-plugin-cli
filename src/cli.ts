@@ -12,7 +12,7 @@ function separate() {
 const QUESTIONS_DB = {
   pluginName: {
     type: 'input',
-    message: 'Enter your plugin name:',
+    message: 'Plugin name:',
     validate: function (value) {
       if (value.length > 0) {
         return true;
@@ -20,6 +20,11 @@ const QUESTIONS_DB = {
         return 'Please provide at least 1 character as a name.';
       }
     }
+  },
+  id: {
+    type: 'input',
+    message: 'Plugin Id:',
+    default: 'some-id'
   },
   pluginType: {
     type: 'list',
@@ -64,41 +69,36 @@ function getFromDBAndSetByName(id): inquirer.Question {
 }
 
 
-
-var myIterable = {
-  *[Symbol.iterator]() {
-    yield 1;
-    yield 2;
-    yield 3;
-  }
-}
-function* questionsGen(): IterableIterator<inquirer.Question> {
-  
+function* questionsGen(options: any): IterableIterator<inquirer.Question> {
   var g = getFromDBAndSetByName;
-  
   yield g('pluginName');
   yield g('pluginType');
+  let questionId = g('id');
+  questionId.default = TemplateOptions.getDefaultId(options);
+  yield questionId;
+  if(options.pluginType === TemplateOptions.PluginType.Datasource) {
+    options.framework = TemplateOptions.Framework.Angular;
+  } else {
+    yield g('framework');
+  }
 }
 
 export async function collectUserInput(): Promise<TemplateOptions.TemplateOptions> {
 
-  let userInput: TemplateOptions.TemplateOptions = {
-    id: '',
-    pluginName: '',
-    pluginType: TemplateOptions.PluginType.Datasource,
-    framework: '',
-    language: '',
-    style: null
+  var options = {}
+  let quetsionsGen = questionsGen(options);
+
+  while(true) {
+    var item = quetsionsGen.next();
+    if(item.done) {
+      break;
+    }
+    let question = item.value;
+    var answer = await inquirer.prompt(question);
+    options[question.name] = answer[question.name];
   }
 
-  let quetsionsGen = questionsGen();
-
-  console.log(quetsionsGen.next());
-  console.log(quetsionsGen.next());
-  console.log(quetsionsGen.next());
-  
-
-  return userInput;
+  return new TemplateOptions.TemplateOptions(options);
 }
 
 
