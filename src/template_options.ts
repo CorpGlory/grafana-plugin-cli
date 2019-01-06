@@ -12,6 +12,7 @@ export function getDefaultId(options: any): string {
       break;
     case PluginType.Panel:
       prefix = 'panel';
+      break;
     default:
       throw new Error('Unknown type');
   }

@@ -4,11 +4,6 @@ import * as _ from 'lodash';
 import * as inquirer from 'inquirer';
 
 
-function separate() {
-  console.log('-----------------------------');
-}
-
-
 const QUESTIONS_DB = {
   pluginName: {
     type: 'input',
