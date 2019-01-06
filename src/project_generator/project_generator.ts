@@ -1,6 +1,6 @@
 import { IGenerator } from './igenerator';
 import { GenerationContext } from './generation_context';
-import { PackageJsonGenerator } from './package_json/package_json_generator';
+import { PackageJsonGenerator } from './package_json';
 
 import { TemplateOptions } from '../template_options'
 

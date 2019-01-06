@@ -51,9 +51,9 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve('dist')
   },
-  
+
   entry: './src/index.ts',
 
 
-  
+
 };
