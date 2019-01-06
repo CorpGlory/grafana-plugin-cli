@@ -23,5 +23,14 @@ export namespace fs {
     });
   }
 
+  export function readFile(): Promise<Buffer> {
+    return new Promise((resolve, reject) => {
+      fs_.readFile(path, data, options, (err) => {
+        if(!err) resolve();
+        else reject(err);
+      })
+    });
+  }
+
 
 }
