@@ -1,12 +1,13 @@
 import { IGenerator } from './igenerator';
 import { GenerationContext } from './generation_context';
-import { PackageJsonGenerator } from './package_json';
+import { TemplateGenerator } from './template_generator';
 
 import { TemplateOptions } from '../template_options'
 
+import * as templates from './templates';
+
 import { fs } from '../utils';
 import * as path from 'path';
-
 
 
 export class ProjectGenerator {
@@ -16,7 +17,7 @@ export class ProjectGenerator {
 
   constructor(options: TemplateOptions) {
     this._generators = [];
-    this._generators.push(new PackageJsonGenerator());
+    this._generators.push(new TemplateGenerator(templates.package_json, 'package.json'));
     this._context = new GenerationContext(options);
   }
 
