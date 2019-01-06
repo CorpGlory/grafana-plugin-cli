@@ -2,19 +2,21 @@ import * as fs_ from 'fs';
 
 export namespace fs {
   export function mkdir(
-      path: fs_.PathLike, 
+      path: fs_.PathLike,
       options?: number | string | fs_.MakeDirectoryOptions
     ): Promise<void> {
-    return new Promise((resolve, reject) => {
-      fs_.mkdir(path, options, (err) => {
-        if(!err) resolve();
-        else reject(err);
-      })
-    });
-    
+      return new Promise((resolve, reject) => {
+        fs_.mkdir(path, options, (err) => {
+          if(!err) resolve();
+          else reject(err);
+        })
+      });
   }
 
-  export function writeFile(path: fs_.PathLike | number, data: any, options: fs_.WriteFileOptions): Promise<void> {
+  export function writeFile(
+    path: fs_.PathLike | number, data: any, 
+    options?: fs_.WriteFileOptions
+  ): Promise<void> {
     return new Promise((resolve, reject) => {
       fs_.writeFile(path, data, options, (err) => {
         if(!err) resolve();
@@ -23,12 +25,15 @@ export namespace fs {
     });
   }
 
-  export function readFile(): Promise<Buffer> {
-    return new Promise((resolve, reject) => {
-      fs_.readFile(path, data, options, (err) => {
-        if(!err) resolve();
+  export function readFile(
+    path: fs_.PathLike | number,
+    options?: { encoding?: string | null; flag?: string; } | string
+  ): Promise<string | Buffer> {
+    return new Promise<string | Buffer>((resolve, reject) => {
+      fs_.readFile(path, options, (err, data) => {
+        if(!err) resolve(data);
         else reject(err);
-      })
+      });
     });
   }
 

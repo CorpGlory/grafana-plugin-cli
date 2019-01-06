@@ -11,7 +11,10 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/
       },
-
+      {
+        test: /\.ejs$/,
+        use: 'raw-loader'
+      },
       {
         include: [path.resolve(__dirname, 'src')],
         loader: 'babel-loader',
@@ -31,8 +34,17 @@ module.exports = {
     ]
   },
 
+  externals: [
+    function (context, request, callback) {
+      if(request[0] !== '.') {
+        return callback(null, `require('${request}')`);
+      }
+      callback();
+    }
+  ],
+
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.ts', '.ejs', '.js']
   },
 
   output: {
