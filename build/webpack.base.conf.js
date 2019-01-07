@@ -36,7 +36,7 @@ module.exports = {
 
   externals: [
     function (context, request, callback) {
-      if(request[0] !== '.') {
+      if(request[0] !== '.' && request.substr(0, 3) !== 'src') {
         return callback(null, `require('${request}')`);
       }
       callback();
@@ -44,7 +44,10 @@ module.exports = {
   ],
 
   resolve: {
-    extensions: ['.ts', '.ejs', '.js']
+    extensions: ['.ts', '.ejs', '.js'],
+    alias: {
+      src: path.resolve(__dirname, '../src'),
+    }
   },
 
   output: {

@@ -1,7 +1,7 @@
 import { IGenerator } from './igenerator';
 import { GenerationContext } from './generation_context';
 
-import { fs } from '../utils';
+import { fs } from 'src/utils';
 import * as path from 'path';
 
 

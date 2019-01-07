@@ -6,7 +6,7 @@ import { TemplateOptions } from '../template_options'
 
 import * as templates from './templates';
 
-import { fs } from '../utils';
+import { fs } from 'src/utils';
 import * as path from 'path';
 
 

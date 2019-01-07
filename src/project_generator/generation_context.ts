@@ -1,4 +1,4 @@
-import { TemplateOptions } from '../template_options';
+import { TemplateOptions } from 'src/template_options';
 
 
 export class GenerationContext {
