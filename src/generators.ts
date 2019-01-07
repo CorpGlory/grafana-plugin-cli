@@ -7,13 +7,19 @@ import * as path from 'path';
 
 
 type FunctionValue<V, T> = V | ((context: GenerationContext<T>) => FunctionValue<V, T>);
+type FunctionArray<V, T> = FunctionValue<FunctionValue<V, T>[], T>
 
 
-function resolveFunctionValue<V, T>(fv: FunctionValue<V, T>, context: GenerationContext<T>) {
+function resolveFunctionValue<V, T>(fv: FunctionValue<V, T>, context: GenerationContext<T>): V {
   while(_.isFunction(fv)) {
     fv = fv(context);
   }
   return fv;
+}
+
+function resolveFunctionArray<V, T>(array: FunctionArray<V, T>, context: GenerationContext<T>): V[] {
+  let arr = resolveFunctionValue(array, context);
+  return _.flatMap(arr, e => resolveFunctionValue(e, context));
 }
 
 export class GenerationContext<T> {
@@ -49,7 +55,7 @@ export class FolderGenerator<T> implements IGenerator<T> {
 
   constructor(
     private _folderName: FunctionValue<string, T>, 
-    private _innerGenerators: (IGenerator<T> | FunctionValue<IGenerator<T>, T>)[]
+    private _innerGenerators: FunctionArray<IGenerator<T>, T>
   ) {
 
   }
@@ -61,9 +67,7 @@ export class FolderGenerator<T> implements IGenerator<T> {
     innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
 
     await fs.mkdir(innterContext.workingDirectory);
-    await Promise.all(
-      this._innerGenerators.map(g => resolveFunctionValue(g, context).generate(innterContext))
-    );
-    
+    let innerGenerators = resolveFunctionArray(this._innerGenerators, context);
+    await Promise.all(innerGenerators.map(g => g.generate(innterContext)));
   }
 }
