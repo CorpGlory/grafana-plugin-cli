@@ -26,5 +26,5 @@ npm start
 # How it works
 
 There are two main pieces:
-1. [options](/src/template_optoins.ts) - options for project: language / type / ...
+1. [options](/src/template_options.ts) - options for project: language / type / ...
 2. [schema](/src/project_schema/index.ts) - rules for generation project
