@@ -6,6 +6,13 @@ import * as _ from 'lodash';
 import * as path from 'path';
 
 
+type FunctionValue<V, T> = V | ((context: GenerationContext<T>) => V);
+
+
+function resolveFunctionValue<V, T>(fv: FunctionValue<V, T>, context: GenerationContext<T>) {
+  return _.isFunction(fv) ? fv(context) : fv;
+}
+
 export class GenerationContext<T> {
   public options: T;
   public workingDirectory: string;
@@ -15,22 +22,12 @@ export class GenerationContext<T> {
   }
 }
 
-
 export interface IGenerator<T> {
   /**
    * generate anything in context
    */
   generate(context: GenerationContext<T>): Promise<void>;
 }
-
-
-type FunctionString<T> = string | ((context: GenerationContext<T>) => string);
-
-
-function resolveFunctionString<T>(str: FunctionString<T>, context: GenerationContext<T>) {
-  return _.isString(str) ? str : str(context);
-}
-
 
 export class TemplateGenerator<T> implements IGenerator<T> {
 
@@ -47,14 +44,14 @@ export class TemplateGenerator<T> implements IGenerator<T> {
 export class FolderGenerator<T> implements IGenerator<T> {
 
   constructor(
-    private _folderName: FunctionString<T>, 
+    private _folderName: FunctionValue<string, T>, 
     private _innerGenerators: IGenerator<T>[]
   ) {
 
   }
 
   public async generate(context: GenerationContext<T>) {
-    let folderName = resolveFunctionString(this._folderName, context);
+    let folderName = resolveFunctionValue(this._folderName, context);
 
     let innterContext = _.clone(context);
     innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
