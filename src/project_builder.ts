@@ -1,5 +1,5 @@
 
-import projectScheme from './project_scheme';
+import projectScheme from './project_schema';
 
 import { GenerationContext } from './generators';
 import { TemplateOptions } from 'src/template_options'
