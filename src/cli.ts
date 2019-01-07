@@ -18,8 +18,7 @@ const QUESTIONS_DB = {
   },
   id: {
     type: 'input',
-    message: 'Plugin Id:',
-    default: 'some-id'
+    message: 'Plugin Id:'
   },
   pluginType: {
     type: 'list',
@@ -63,7 +62,6 @@ function getFromDBAndSetByName(id): inquirer.Question {
   return obj;
 }
 
-
 function* questionsGen(options: any): IterableIterator<inquirer.Question> {
   var g = getFromDBAndSetByName;
   yield g('pluginName');
@@ -95,5 +93,3 @@ export async function collectUserInput(): Promise<TemplateOptions.TemplateOption
 
   return new TemplateOptions.TemplateOptions(options);
 }
-
-

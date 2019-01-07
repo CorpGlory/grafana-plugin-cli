@@ -20,6 +20,7 @@ export function getDefaultId(options: any): string {
   return s1.toLowerCase();
 }
 
+
 export class TemplateOptions {
   public id: string;
   public pluginName: string;
