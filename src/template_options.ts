@@ -5,21 +5,20 @@ export enum Style { CSS = 1, SASS }
 
 
 export function getDefaultId(options: any): string {
-  var prefix = '';
+  var suffix = '';
   switch(options.pluginType) {
     case PluginType.Datasource:
-      prefix = 'datasource';
+      suffix = 'datasource';
       break;
     case PluginType.Panel:
-      prefix = 'panel';
+      suffix = 'panel';
       break;
     default:
       throw new Error('Unknown type');
   }
-  var s1 = options.pluginName + '-' + prefix;
+  var s1 = options.pluginName + '-' + suffix;
   return s1.toLowerCase();
 }
-
 
 export class TemplateOptions {
   public id: string;
