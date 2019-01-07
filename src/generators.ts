@@ -6,11 +6,14 @@ import * as _ from 'lodash';
 import * as path from 'path';
 
 
-type FunctionValue<V, T> = V | ((context: GenerationContext<T>) => V);
+type FunctionValue<V, T> = V | ((context: GenerationContext<T>) => FunctionValue<V, T>);
 
 
 function resolveFunctionValue<V, T>(fv: FunctionValue<V, T>, context: GenerationContext<T>) {
-  return _.isFunction(fv) ? fv(context) : fv;
+  while(_.isFunction(fv)) {
+    fv = fv(context);
+  }
+  return fv;
 }
 
 export class GenerationContext<T> {
@@ -31,12 +34,13 @@ export interface IGenerator<T> {
 
 export class TemplateGenerator<T> implements IGenerator<T> {
 
-  constructor(private template: string, private targetPath) {
+  constructor(private _template: string, private _targetName: FunctionValue<string, T>) {
   }
 
   public async generate(context: GenerationContext<T>) {
-    let result = ejs.render(this.template, context);
-    let targetPath = path.join(context.workingDirectory, this.targetPath);
+    let targetName = resolveFunctionValue(this._targetName, context);
+    let targetPath = path.join(context.workingDirectory, targetName);
+    let result = ejs.render(this._template, context);
     await fs.writeFile(targetPath, result);
   }
 }
@@ -45,7 +49,7 @@ export class FolderGenerator<T> implements IGenerator<T> {
 
   constructor(
     private _folderName: FunctionValue<string, T>, 
-    private _innerGenerators: IGenerator<T>[]
+    private _innerGenerators: (IGenerator<T> | FunctionValue<IGenerator<T>, T>)[]
   ) {
 
   }
@@ -57,7 +61,9 @@ export class FolderGenerator<T> implements IGenerator<T> {
     innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
 
     await fs.mkdir(innterContext.workingDirectory);
-    await Promise.all(this._innerGenerators.map(g => g.generate(innterContext)));
+    await Promise.all(
+      this._innerGenerators.map(g => resolveFunctionValue(g, context).generate(innterContext))
+    );
     
   }
 }
