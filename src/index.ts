@@ -12,15 +12,15 @@ export async function runCLI() {
   separate();
   console.log('Welcome to Grafana-plugin-cli');
 
-  var optoins: TemplateOptions = await collectUserInput();
+  var options: TemplateOptions = await collectUserInput();
 
-  console.log(optoins);
+  console.log(options);
 
-  var generator = new ProjectBuilder(optoins);
+  var generator = new ProjectBuilder(options);
   await generator.generate();
 
   separate();
-  console.log('Your plugin is being assembled!')
+  console.log(`Your plugin ${options.id} is ready.`);
 }
 
 runCLI();

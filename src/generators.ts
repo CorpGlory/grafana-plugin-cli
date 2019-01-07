@@ -6,8 +6,8 @@ import * as _ from 'lodash';
 import * as path from 'path';
 
 
-type FunctionValue<V, T> = V | ((context: GenerationContext<T>) => FunctionValue<V, T>);
-type FunctionArray<V, T> = FunctionValue<FunctionValue<V, T>[], T>
+export type FunctionValue<V, T> = ((context: GenerationContext<T>) => FunctionValue<V, T>) | V
+export type FunctionArray<V, T> = FunctionValue<FunctionValue<V[] | V, T>[], T>
 
 
 function resolveFunctionValue<V, T>(fv: FunctionValue<V, T>, context: GenerationContext<T>): V {
