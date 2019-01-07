@@ -1,7 +1,7 @@
 
 import { collectUserInput } from './cli';
 import { TemplateOptions } from './template_options';
-import { ProjectGenerator } from './project_generator/project_generator';
+import { ProjectBuilder } from './project_builder';
 
 
 function separate() {
@@ -16,7 +16,7 @@ export async function runCLI() {
 
   console.log(optoins);
 
-  var generator = new ProjectGenerator(optoins);
+  var generator = new ProjectBuilder(optoins);
   await generator.generate();
 
   separate();

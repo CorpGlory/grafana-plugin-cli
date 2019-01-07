@@ -1,16 +1,14 @@
 import { IGenerator } from './igenerator';
 import { GenerationContext } from './generation_context';
 import { TemplateGenerator } from './template_generator';
-
-import { TemplateOptions } from '../template_options'
-
 import * as templates from './templates';
 
+import { TemplateOptions } from 'src/template_options'
 import { fs } from 'src/utils';
 import * as path from 'path';
 
 
-export class ProjectGenerator {
+export class ProjectBuilder {
 
   private _context: GenerationContext;
   private _generators: IGenerator[];
