@@ -69,6 +69,7 @@ function* questionsGen(options: any): IterableIterator<inquirer.Question> {
   let questionId = g('id');
   questionId.default = TemplateOptions.getDefaultId(options);
   yield questionId;
+  yield g('language');
   if(options.pluginType === TemplateOptions.PluginType.Datasource) {
     options.framework = TemplateOptions.Framework.Angular;
   } else {

@@ -1,7 +1,7 @@
 import partials from './partials';
 
 import { FolderGenerator, TemplateGenerator } from 'src/generators';
-import { TemplateOptions, PluginType } from 'src/template_options';
+import { TemplateOptions, PluginType, srcExt } from 'src/template_options';
 
 
 export default new FolderGenerator<TemplateOptions>('src', [
@@ -10,12 +10,12 @@ export default new FolderGenerator<TemplateOptions>('src', [
   context => {
     if(context.options.pluginType === PluginType.Panel) {
       return [
-        new TemplateGenerator(require('./module.js.panel.ejs'), 'module.js')
+        new TemplateGenerator(require('./module.xs.panel.ejs'), srcExt('module.{ext}'))
       ]
     } else {
       return [
-        new TemplateGenerator(require('./module.js.datasource.ejs'), 'module.js'),
-        new TemplateGenerator(require('./query_ctrl.js.ejs'), 'query_ctrl.js')
+        new TemplateGenerator(require('./module.xs.datasource.ejs'), srcExt('module.{ext}')),
+        new TemplateGenerator(require('./query_ctrl.xs.ejs'), srcExt('query_ctrl.{ext}'))
       ]
     }
   }
