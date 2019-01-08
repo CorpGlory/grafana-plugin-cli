@@ -1,3 +1,5 @@
+import { GenerationContext } from 'src/generators';
+
 export enum PluginType { Datasource = 1, Panel }
 export enum Framework { Angular = 1, React }
 export enum Language { JavaScript = 1, TypeScript }
@@ -14,19 +16,38 @@ export function getDefaultId(options: any): string {
       suffix = 'panel';
       break;
     default:
-      throw new Error('Unknown type');
+      throw new Error('Unknown plugin type: ' + options.pluginType);
   }
   var s1 = options.pluginName + '-' + suffix;
   return s1.toLowerCase();
+}
+
+function languageToExtension(language: Language) {
+  switch(language) {
+    case Language.JavaScript:
+      return 'js';
+    case Language.TypeScript:
+      return 'ts';
+    default:
+      throw new Error('Unknown language: ' + language);
+  }
+}
+
+export function srcExt(name: string) {
+  if(name.indexOf('{ext}') === -1) {
+    throw new Error('Template file name should contain "{ext}"');
+  }
+  return (context: GenerationContext<TemplateOptions>) => 
+    name.replace('{ext}', languageToExtension(context.options.language))
 }
 
 export class TemplateOptions {
   public id: string;
   public pluginName: string;
   public pluginType: PluginType;
-  public framework: string;
-  public language: string;
-  public style?: string;
+  public framework: Framework;
+  public language: Language;
+  public style?: Style;
   
   constructor(options: any) {
     this.id = options.id;
@@ -44,6 +65,10 @@ export class TemplateOptions {
     this.framework = options.framework;
     if(this.framework === undefined) {
       throw new Error('Missing framework value');
+    }
+    this.language = options.language;
+    if(this.language === undefined) {
+      throw new Error('Missing laguage value');
     }
     this.style = options.style ? options.style : null;
   }
