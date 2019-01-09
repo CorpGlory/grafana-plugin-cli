@@ -1,0 +1,48 @@
+export class GenericDatasource {
+
+  constructor(instanceSettings) {
+    this.type = instanceSettings.type;
+    this.url = instanceSettings.url;
+    this.name = instanceSettings.name;
+
+    this.withCredentials = instanceSettings.withCredentials;
+    if(typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
+      this.headers['Authorization'] = instanceSettings.basicAuth;
+    }
+  }
+
+  async query(options) {
+    const targets = query.targets.filter(t => !t.hide);
+
+    if (targets.length <= 0) {
+      return { data: [] };
+    }
+
+    return {
+      data: targets.map(t => ({
+        target: t.refId,
+        datapoints: [
+          [622, Date.now()]
+        ]
+      })
+    };
+  }
+
+  async testDatasource() {
+    return {
+      status: 'success',
+      message: 'Data source is working',
+      title: 'Success'
+    };
+  }
+
+  metricFindQuery(options) {
+    return [
+      {
+        text: 'Metric Name',
+        value: 'metric_name'
+      }
+    ];
+  }
+
+}
