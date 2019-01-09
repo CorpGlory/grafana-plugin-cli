@@ -23,7 +23,7 @@ function resolveFunctionArray<V, T>(array: FunctionArray<V, T>, context: Generat
   return _.flatMap(arr, e => resolveFunctionValue(e, context));
 }
 
-function resolveContextMap<T>(context: GenerationContext<T>, map?: ContextModifier<T>): GenerationContext<T> {
+function resolveContextModifier<T>(context: GenerationContext<T>, map?: ContextModifier<T>): GenerationContext<T> {
   if(map === undefined) {
     return context;
   }
@@ -60,7 +60,7 @@ export class TemplateGenerator<T> implements IGenerator<T> {
   public async generate(context: GenerationContext<T>) {
     let targetName = resolveFunctionValue(this._targetName, context);
     let targetPath = path.join(context.workingDirectory, targetName);
-    let innterContext = resolveContextMap(context, this._contextMap);
+    let innterContext = resolveContextModifier(context, this._contextMap);
     let result = ejs.render(this._template, innterContext);
     await fs.writeFile(targetPath, result);
   }
@@ -81,7 +81,7 @@ export class FolderGenerator<T> implements IGenerator<T> {
 
     let innterContext = _.clone(context);
     innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
-    innterContext = resolveContextMap(innterContext, this._contextMap);
+    innterContext = resolveContextModifier(innterContext, this._contextMap);
 
     await fs.mkdir(innterContext.workingDirectory);
     let innerGenerators = resolveFunctionArray(this._innerGenerators, context);
