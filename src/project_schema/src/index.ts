@@ -10,7 +10,11 @@ export default new FolderGenerator<TemplateOptions>('src', [
   context => {
     if(context.options.pluginType === PluginType.Panel) {
       return [
-        new TemplateGenerator(require('./module.xs.panel.ejs'), srcExt('module.{ext}'))
+        new TemplateGenerator(
+          require('./module.xs.panel.ejs'),
+          srcExt('module.{ext}'),
+          (ctx) => { ctx['showStyles'] = ctx.options.style !== null }
+        )
       ]
     } else {
       return [
