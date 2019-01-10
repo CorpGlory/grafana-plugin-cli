@@ -12,6 +12,11 @@
   "license": "MIT",
   "repository": "",
   "devDependencies": {
+    <% if (extension === 'ts') { %>
+    "@types/grafana": "github:CorpGlory/types-grafana",
+    "ts-loader": "^2.3.7",
+    "typescript": "^2.4.2",
+    <% } %>
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
