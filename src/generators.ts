@@ -8,6 +8,7 @@ import * as path from 'path';
 
 export type FunctionValue<V, T> = ((context: GenerationContext<T>) => FunctionValue<V, T>) | V
 export type FunctionArray<V, T> = FunctionValue<FunctionValue<V[] | V, T>[], T>
+export type ContextModifier<T> = (context: GenerationContext<T>) => void
 
 
 function resolveFunctionValue<V, T>(fv: FunctionValue<V, T>, context: GenerationContext<T>): V {
@@ -20,6 +21,15 @@ function resolveFunctionValue<V, T>(fv: FunctionValue<V, T>, context: Generation
 function resolveFunctionArray<V, T>(array: FunctionArray<V, T>, context: GenerationContext<T>): V[] {
   let arr = resolveFunctionValue(array, context);
   return _.flatMap(arr, e => resolveFunctionValue(e, context));
+}
+
+function resolveContextModifier<T>(context: GenerationContext<T>, map?: ContextModifier<T>): GenerationContext<T> {
+  if(map === undefined) {
+    return context;
+  }
+  let newContext = _.clone(context);
+  map(newContext);
+  return newContext;
 }
 
 export class GenerationContext<T> {
@@ -40,13 +50,18 @@ export interface IGenerator<T> {
 
 export class TemplateGenerator<T> implements IGenerator<T> {
 
-  constructor(private _template: string, private _targetName: FunctionValue<string, T>) {
+  constructor(
+    private _template: string,
+    private _targetName: FunctionValue<string, T>,
+    private _contextMap?: ContextModifier<T>
+  ) {
   }
 
   public async generate(context: GenerationContext<T>) {
     let targetName = resolveFunctionValue(this._targetName, context);
     let targetPath = path.join(context.workingDirectory, targetName);
-    let result = ejs.render(this._template, context);
+    let innterContext = resolveContextModifier(context, this._contextMap);
+    let result = ejs.render(this._template, innterContext);
     await fs.writeFile(targetPath, result);
   }
 }
@@ -55,7 +70,8 @@ export class FolderGenerator<T> implements IGenerator<T> {
 
   constructor(
     private _folderName: FunctionValue<string, T>, 
-    private _innerGenerators: FunctionArray<IGenerator<T>, T>
+    private _innerGenerators: FunctionArray<IGenerator<T>, T>,
+    private _contextMap?: ContextModifier<T>
   ) {
 
   }
@@ -65,6 +81,7 @@ export class FolderGenerator<T> implements IGenerator<T> {
 
     let innterContext = _.clone(context);
     innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
+    innterContext = resolveContextModifier(innterContext, this._contextMap);
 
     await fs.mkdir(innterContext.workingDirectory);
     let innerGenerators = resolveFunctionArray(this._innerGenerators, context);
