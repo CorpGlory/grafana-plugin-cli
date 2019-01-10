@@ -12,7 +12,7 @@ export class GenericDatasource {
   }
 
   async query(options) {
-    const targets = query.targets.filter(t => !t.hide);
+    const targets = options.targets.filter(t => !t.hide);
 
     if (targets.length <= 0) {
       return { data: [] };
@@ -22,9 +22,10 @@ export class GenericDatasource {
       data: targets.map(t => ({
         target: t.refId,
         datapoints: [
-          [622, Date.now()]
+          [3.14, options.range.from.valueOf()],
+          [42, options.range.to.valueOf()]
         ]
-      })
+      }))
     };
   }
 

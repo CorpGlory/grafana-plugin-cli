@@ -6,7 +6,17 @@ import { TemplateOptions, PluginType, srcExt } from 'src/template_options';
 
 export default new FolderGenerator<TemplateOptions>('src', [
   partials,
-  new TemplateGenerator(require('./plugin.json.ejs'), 'plugin.json'),
+  new TemplateGenerator(
+    require('./plugin.json.ejs'), 
+    'plugin.json',
+    ctx => { 
+      if(ctx.options.pluginType === PluginType.Panel) {
+        ctx['pluginType'] = 'panel';
+      } else if(ctx.options.pluginType === PluginType.Datasource) {
+        ctx['pluginType'] = 'datasource';
+      }
+    }
+  ),
   context => {
     if(context.options.pluginType === PluginType.Panel) {
       return [
@@ -19,7 +29,8 @@ export default new FolderGenerator<TemplateOptions>('src', [
     } else {
       return [
         new TemplateGenerator(require('./module.xs.datasource.ejs'), srcExt('module.{ext}')),
-        new TemplateGenerator(require('./query_ctrl.xs.ejs'), srcExt('query_ctrl.{ext}'))
+        new TemplateGenerator(require('./query_ctrl.xs.ejs'), srcExt('query_ctrl.{ext}')),
+        new TemplateGenerator(require('./datasource.xs.ejs'), srcExt('datasource.{ext}'))
       ]
     }
   }
