@@ -1,7 +1,7 @@
 import partials from './partials';
 
 import { FolderGenerator, TemplateGenerator } from 'src/generators';
-import { TemplateOptions, PluginType, srcExt } from 'src/template_options';
+import { TemplateOptions, PluginType, srcExt, Language } from 'src/template_options';
 
 
 export default new FolderGenerator<TemplateOptions>('src', [
@@ -23,7 +23,10 @@ export default new FolderGenerator<TemplateOptions>('src', [
         new TemplateGenerator(
           require('./module.xs.panel.ejs'),
           srcExt('module.{ext}'),
-          (ctx) => { ctx['showStyles'] = ctx.options.style !== null }
+          (ctx) => {
+            ctx['showStyles'] = ctx.options.style !== null;
+            ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
+          }
         )
       ]
     } else {

@@ -10,15 +10,19 @@ import './css/panel.light.scss';
 
 class Ctrl extends PanelCtrl {
 
-  constructor($scope, $injector) {
+  private _panelPath<%= isTypeScript ? ': string' : '' %>;
+  static templateUrl<%= isTypeScript ? ': string' : '' %>;
+
+  constructor($scope<%= isTypeScript ? ': any' : '' %>, $injector<%= isTypeScript ? ': any' : '' %>) {
     super($scope, $injector);
   }
 
-  link(scope, element) {
+  link(scope<%= isTypeScript ? ': any' : '' %>, element<%= isTypeScript ? ': any' : '' %>) {
     this.initStyles();
   }
 
   initStyles() {
+    <% if (showStyles) { %>
     window.System.import(this.panelPath + 'css/panel.base.css!');
     // Remove next lines if you don't need separate styles for light and dark themes
     if (grafanaBootData.user.lightTheme) {
@@ -27,6 +31,7 @@ class Ctrl extends PanelCtrl {
       window.System.import(this.panelPath + 'css/panel.dark.css!');
     }
     // Remove up to here
+    <% } %>
   }
 
   get panelPath() {

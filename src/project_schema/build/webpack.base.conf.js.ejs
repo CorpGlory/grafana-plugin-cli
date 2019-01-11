@@ -14,7 +14,7 @@ function resolve(dir) {
 module.exports = {
   target: 'node',
   context: resolve('src'),
-  entry: './module.js',
+  entry: './module.<%= extension %>',
   output: {
     filename: "module.js",
     path: resolve('dist'),
@@ -80,6 +80,13 @@ module.exports = {
           fallback: 'style-loader',
           use: ['css-loader', 'sass-loader']
         })
+      },
+      {
+        test: /\.tsx?$/,
+        loaders: [
+          "ts-loader"
+        ],
+        exclude: /node_modules/
       }
     ]
   }
