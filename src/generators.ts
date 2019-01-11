@@ -82,6 +82,7 @@ export class FolderGenerator<T> implements IGenerator<T> {
     let innterContext = _.clone(context);
     innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
     innterContext = resolveContextModifier(innterContext, this._contextMap);
+    console.log(innterContext)
 
     await fs.mkdir(innterContext.workingDirectory);
     let innerGenerators = resolveFunctionArray(this._innerGenerators, context);

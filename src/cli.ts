@@ -1,5 +1,6 @@
 import * as TemplateOptions from './template_options';
 import * as _ from 'lodash';
+import * as path from 'path';
 
 import * as inquirer from 'inquirer';
 import { fs } from './utils';
@@ -84,8 +85,8 @@ function* questionsGen(options: any): IterableIterator<inquirer.Question> {
   } else {
     yield g('framework');
   }
-  let path = options.pluginName;
-  if(fs.exists(path)) {
+  let dirPath = path.resolve(process.cwd(), options.id)
+  if (fs.exists(dirPath)) {
     yield g('overWriteDir');
   }
 }

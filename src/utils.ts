@@ -38,7 +38,7 @@ export namespace fs {
   }
 
   export function exists(path) {
-    return fs.exists(path);
+    return fs_.existsSync(path);
   }
 
 }
