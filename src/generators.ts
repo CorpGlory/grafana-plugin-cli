@@ -11,7 +11,7 @@ export type FunctionArray<V, T> = FunctionValue<FunctionValue<V[] | V, T>[], T>
 export type ContextModifier<T> = (context: GenerationContext<T>) => void
 
 
-function resolveFunctionValue<V, T>(fv: FunctionValue<V, T>, context: GenerationContext<T>): V {
+export function resolveFunctionValue<V, T>(fv: FunctionValue<V, T>, context: GenerationContext<T>): V {
   while(_.isFunction(fv)) {
     fv = fv(context);
   }
