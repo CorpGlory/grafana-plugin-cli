@@ -1,9 +1,13 @@
 {
-  "type": "panel",
-  "name": "Plugin Template Name",
+  "type": "<%= pluginType %>",
+  <% if(pluginType === 'datasource') { %>
+  "metrics": true,
+  "annotations": false,
+  <% } %>
+  "name": "<%= options.pluginName %>",
   "id": "<%= options.id %>",
   "info": {
-    "description": "Plugin Template Name Description",
+    "description": "<%= options.pluginName %> Description",
     "author": {
       "name": "Author Name",
       "url": "example.com"
