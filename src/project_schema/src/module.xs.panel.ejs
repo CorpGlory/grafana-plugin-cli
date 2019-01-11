@@ -10,8 +10,8 @@ import './css/panel.light.scss';
 
 class Ctrl extends PanelCtrl {
 
-  private _panelPath: string;
-  static templateUrl: string;
+  private _panelPath<%= isTypeScript ? ': string' : '' %>;
+  static templateUrl<%= isTypeScript ? ': string' : '' %>;
 
   constructor($scope<%= isTypeScript ? ': any' : '' %>, $injector<%= isTypeScript ? ': any' : '' %>) {
     super($scope, $injector);
