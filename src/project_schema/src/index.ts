@@ -23,8 +23,9 @@ export default new FolderGenerator<TemplateOptions>('src', [
         new TemplateGenerator(
           require('./module.xs.panel.ejs'),
           srcExt('module.{ext}'),
-          (ctx) => { ctx['showStyles'] = ctx.options.style !== null;
-          ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
+          (ctx) => {
+            ctx['showStyles'] = ctx.options.style !== null;
+            ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
           }
         )
       ]
