@@ -2,6 +2,7 @@ import * as TemplateOptions from './template_options';
 import * as _ from 'lodash';
 
 import * as inquirer from 'inquirer';
+import { fs } from './utils';
 
 
 const QUESTIONS_DB = {
@@ -52,6 +53,14 @@ const QUESTIONS_DB = {
       { name: 'CSS', value: TemplateOptions.Style.CSS },
       { name: 'SASS', value: TemplateOptions.Style.SASS }
     ]
+  },
+  overWriteDir: {
+    type: 'list',
+    message: 'Directory already exists. Overwrite?',
+    choices: [
+      { name: 'Yes', value: TemplateOptions.overWriteDir.true},
+      { name: 'No', value: TemplateOptions.overWriteDir.false },
+    ]
   }
 
 }
@@ -74,6 +83,10 @@ function* questionsGen(options: any): IterableIterator<inquirer.Question> {
     options.framework = TemplateOptions.Framework.Angular;
   } else {
     yield g('framework');
+  }
+  let path = options.pluginName;
+  if(fs.exists(path)) {
+    yield g('overWriteDir');
   }
 }
 

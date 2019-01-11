@@ -4,6 +4,7 @@ export enum PluginType { Datasource = 1, Panel }
 export enum Framework { Angular = 1, React }
 export enum Language { JavaScript = 1, TypeScript }
 export enum Style { CSS = 1, SASS }
+export enum overWriteDir { true = 1, false }
 
 
 export function getDefaultId(options: any): string {
@@ -48,6 +49,7 @@ export class TemplateOptions {
   public framework: Framework;
   public language: Language;
   public style?: Style;
+  public overWriteDir: boolean;
   
   constructor(options: any) {
     this.id = options.id;
@@ -71,6 +73,8 @@ export class TemplateOptions {
       throw new Error('Missing laguage value');
     }
     this.style = options.style ? options.style : null;
+
+    this.overWriteDir = options.overWriteDir;
   }
 
 }
