@@ -9,12 +9,11 @@ import './css/panel.light.scss';
 <% } %>
 
 class Ctrl extends PanelCtrl {
-
-  constructor($scope: any, $injector: any) {
+  constructor($scope<%= isTypeScript ? ': any' : '' %>, $injector<%= isTypeScript ? ': any' : '' %>) {
     super($scope, $injector);
   }
 
-  link(scope: any, element: any) {
+  link(scope<%= isTypeScript ? ': any' : '' %>, element<%= isTypeScript ? ': any' : '' %>) {
     this.initStyles();
   }
 

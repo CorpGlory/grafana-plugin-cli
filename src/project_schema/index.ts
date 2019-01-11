@@ -17,6 +17,7 @@ export default new FolderGenerator<TemplateOptions>(context => context.options.i
     if(context.options.language === Language.TypeScript) {
       return new TemplateGenerator(require('./tsconfig.json.ejs'), 'tsconfig.json');
     }
+    return [];
   },
   build, src
 ]);
