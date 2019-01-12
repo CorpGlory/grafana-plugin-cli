@@ -1,4 +1,4 @@
-import * as fs_ from 'fs';
+import * as fs_ from 'fs-extra';
 
 export namespace fs {
   export function mkdir(
@@ -11,6 +11,11 @@ export namespace fs {
           else reject(err);
         })
       });
+  }
+
+  export function rmdir(path) {
+    console.log('was called')
+    fs_.removeSync(path)
   }
 
   export function writeFile(

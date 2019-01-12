@@ -78,13 +78,22 @@ export class FolderGenerator<T> implements IGenerator<T> {
 
   public async generate(context: GenerationContext<T>) {
     let folderName = resolveFunctionValue(this._folderName, context);
-
+    
     let innterContext = _.clone(context);
     innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
     innterContext = resolveContextModifier(innterContext, this._contextMap);
     console.log(innterContext)
 
-    await fs.mkdir(innterContext.workingDirectory);
+    if((context.options as any).overWriteDir === true) {
+      await fs.rmdir(innterContext.workingDirectory);
+      await fs.mkdir(innterContext.workingDirectory);
+    } else if((context.options as any).overWriteDir === false) {
+      console.log('Aborting');
+      process.exit(0)
+    } else {
+      await fs.mkdir(innterContext.workingDirectory);
+    }
+
     let innerGenerators = resolveFunctionArray(this._innerGenerators, context);
     await Promise.all(innerGenerators.map(g => g.generate(innterContext)));
   }
