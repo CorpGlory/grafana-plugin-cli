@@ -78,11 +78,10 @@ export class FolderGenerator<T> implements IGenerator<T> {
 
   public async generate(context: GenerationContext<T>) {
     let folderName = resolveFunctionValue(this._folderName, context);
-    
+
     let innterContext = _.clone(context);
     innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
     innterContext = resolveContextModifier(innterContext, this._contextMap);
-    console.log(innterContext)
 
     if((context.options as any).overWriteDir === true) {
       await fs.rmdir(innterContext.workingDirectory);

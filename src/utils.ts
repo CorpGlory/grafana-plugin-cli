@@ -14,7 +14,6 @@ export namespace fs {
   }
 
   export function rmdir(path) {
-    console.log('was called')
     fs_.removeSync(path)
   }
 
