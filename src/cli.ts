@@ -86,7 +86,7 @@ function* questionsGen(options: any): IterableIterator<inquirer.Question> {
     yield g('framework');
   }
   let dirPath = path.resolve(process.cwd(), options.id)
-  if (fs.exists(dirPath)) {
+  if(fs.exists(dirPath)) {
     yield g('overWriteDir');
   }
 }

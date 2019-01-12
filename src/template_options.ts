@@ -76,7 +76,7 @@ export class TemplateOptions {
 
     if(options.overWriteDir === 1) {
       this.overWriteDir = true;
-    } else if (options.overWriteDir === 2) {
+    } else if(options.overWriteDir === 2) {
       this.overWriteDir = false;
     }
   }
