@@ -2,14 +2,17 @@ import build from './build';
 import src from './src';
 
 import { FolderGenerator, TemplateGenerator } from 'src/generators';
-import { TemplateOptions, Language } from 'src/template_options';
+import { TemplateOptions, Language, Style } from 'src/template_options';
 
 
 export default new FolderGenerator<TemplateOptions>(context => context.options.id, [
   new TemplateGenerator(
     require('./package.json.ejs'),
     'package.json',
-    (ctx) => { ctx['isTypeScript'] = ctx.options.language === Language.TypeScript }
+    (ctx) => {
+      ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
+      ctx['useStyles'] = ctx.options.style !== Style.None;
+    }
   ),
   new TemplateGenerator(require('./.gitignore.ejs'), '.gitignore'),
   new TemplateGenerator(require('./README.md.ejs'), 'README.md'),
