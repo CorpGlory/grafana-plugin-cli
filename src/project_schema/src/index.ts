@@ -1,10 +1,16 @@
 import partials from './partials';
+import css from './css';
 
 import { FolderGenerator, TemplateGenerator } from 'src/generators';
+<<<<<<< HEAD
 import { TemplateOptions, PluginType, srcExt, tsCode, tsType, Language } from 'src/template_options';
+=======
+import { TemplateOptions, PluginType, srcExt, Language, Style } from 'src/template_options';
+>>>>>>> 3eb16d1fb1daa2fdd5cb3ca914561776feccb7d0
 
 
 export default new FolderGenerator<TemplateOptions>('src', [
+  css,
   partials,
   new TemplateGenerator(
     require('./plugin.json.ejs'), 
@@ -24,7 +30,7 @@ export default new FolderGenerator<TemplateOptions>('src', [
           require('./module.xs.panel.ejs'),
           srcExt('module.{ext}'),
           (ctx) => {
-            ctx['showStyles'] = ctx.options.style !== null;
+            ctx['useStyles'] = ctx.options.style !== Style.None;
             ctx['tsType'] = tsType(ctx);
             ctx['tsCode'] = tsCode(ctx);
           }

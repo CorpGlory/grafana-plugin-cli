@@ -3,7 +3,7 @@ import { GenerationContext } from 'src/generators';
 export enum PluginType { Datasource = 1, Panel }
 export enum Framework { Angular = 1, React }
 export enum Language { JavaScript = 1, TypeScript }
-export enum Style { CSS = 1, SASS }
+export enum Style { CSS = 1, SASS, None }
 
 
 export function getDefaultId(options: any): string {
@@ -76,9 +76,12 @@ export class TemplateOptions {
     }
     this.language = options.language;
     if(this.language === undefined) {
-      throw new Error('Missing laguage value');
+      throw new Error('Missing language value');
     }
-    this.style = options.style ? options.style : null;
+    this.style = options.style;
+    if(this.style === undefined) {
+      throw new Error('Missing style value');
+    }
   }
 
 }

@@ -33,7 +33,8 @@ const QUESTIONS_DB = {
     message: 'UI Framework:',
     choices: [
       { name: 'AngularJS', value: TemplateOptions.Framework.Angular },
-      { name: 'React', value: TemplateOptions.Framework.React }
+      // React is not supported yet
+      // { name: 'React', value: TemplateOptions.Framework.React }
     ]
   },
   language: {
@@ -48,9 +49,10 @@ const QUESTIONS_DB = {
     type: 'list',
     message: 'Styles type:',
     choices: [
-      { name: '(no styles)', value: null },
+      { name: '(no styles)', value: TemplateOptions.Style.None },
       { name: 'CSS', value: TemplateOptions.Style.CSS },
-      { name: 'SASS', value: TemplateOptions.Style.SASS }
+      // SASS is not supported yet
+      // { name: 'SASS', value: TemplateOptions.Style.SASS }
     ]
   }
 
@@ -74,6 +76,12 @@ function* questionsGen(options: any): IterableIterator<inquirer.Question> {
     options.framework = TemplateOptions.Framework.Angular;
   } else {
     yield g('framework');
+  }
+  // Styles for datasources are not supported yet
+  if(options.pluginType === TemplateOptions.PluginType.Datasource) {
+    options.style = TemplateOptions.Style.None;
+  } else {
+    yield g('style');
   }
 }
 
