@@ -41,12 +41,14 @@ export function srcExt(name: string) {
     name.replace('{ext}', languageToExtension(context.options.language))
 }
 
-export function tsCode(context) {
-  return (code) => context.options.language === Language.TypeScript ? code : '';
-}
+export namespace ts {
+  export function code(context) {
+    return (code) => context.options.language === Language.TypeScript ? code : '';
+  }
 
-export function tsType(context) {
-  return (type) => context.options.language === Language.TypeScript ? `: ${type}` : '';
+  export function type(context) {
+    return (type) => context.options.language === Language.TypeScript ? `: ${type}` : '';
+  }
 }
 
 export class TemplateOptions {

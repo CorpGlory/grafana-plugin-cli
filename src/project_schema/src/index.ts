@@ -2,11 +2,7 @@ import partials from './partials';
 import css from './css';
 
 import { FolderGenerator, TemplateGenerator } from 'src/generators';
-<<<<<<< HEAD
-import { TemplateOptions, PluginType, srcExt, tsCode, tsType, Language } from 'src/template_options';
-=======
-import { TemplateOptions, PluginType, srcExt, Language, Style } from 'src/template_options';
->>>>>>> 3eb16d1fb1daa2fdd5cb3ca914561776feccb7d0
+import { TemplateOptions, PluginType, srcExt, ts, Style, Language } from 'src/template_options';
 
 
 export default new FolderGenerator<TemplateOptions>('src', [
@@ -31,8 +27,8 @@ export default new FolderGenerator<TemplateOptions>('src', [
           srcExt('module.{ext}'),
           (ctx) => {
             ctx['useStyles'] = ctx.options.style !== Style.None;
-            ctx['tsType'] = tsType(ctx);
-            ctx['tsCode'] = tsCode(ctx);
+            ctx['tsType'] = ts.type(ctx);
+            ctx['tsCode'] = ts.code(ctx);
           }
         )
       ]
@@ -42,14 +38,14 @@ export default new FolderGenerator<TemplateOptions>('src', [
           require('./module.xs.datasource.ejs'),
           srcExt('module.{ext}'),
           (ctx) => {
-            ctx['tsCode'] = tsCode(ctx);
+            ctx['tsCode'] = ts.code(ctx);
           }
         ),
         new TemplateGenerator(
           require('./datasource.xs.ejs'),
           srcExt('datasource.{ext}'),
           (ctx) => {
-            ctx['tsType'] = tsType(ctx);
+            ctx['tsType'] = ts.type(ctx);
             ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
           }
         ),
@@ -57,7 +53,7 @@ export default new FolderGenerator<TemplateOptions>('src', [
           require('./query_ctrl.xs.ejs'),
           srcExt('query_ctrl.{ext}'),
           (ctx) => {
-            ctx['tsType'] = tsType(ctx);
+            ctx['tsType'] = ts.type(ctx);
             ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
           }
         )
