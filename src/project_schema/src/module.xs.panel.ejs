@@ -1,28 +1,32 @@
 import { PanelCtrl } from 'grafana/app/plugins/sdk';
 
-<% if (showStyles) { %>
-import './css/panel.base.scss';
+<%_ if(useStyles) { -%>
+import './css/panel.base.css';
 // Remove next imports if you don't need separate styles for light and dark themes
-import './css/panel.dark.scss';
-import './css/panel.light.scss';
+import './css/panel.dark.css';
+import './css/panel.light.css';
 // Remove up to here
-<% } %>
+<%_ } -%>
 
 class Ctrl extends PanelCtrl {
 
-  private _panelPath<%= isTypeScript ? ': string' : '' %>;
-  static templateUrl<%= isTypeScript ? ': string' : '' %>;
+  <%_ if(isTypeScript) { -%>
+  private _panelPath: string;
+  static templateUrl: string;
+  <%_ } -%>
 
   constructor($scope<%= isTypeScript ? ': any' : '' %>, $injector<%= isTypeScript ? ': any' : '' %>) {
     super($scope, $injector);
   }
 
   link(scope<%= isTypeScript ? ': any' : '' %>, element<%= isTypeScript ? ': any' : '' %>) {
+    <%_ if(useStyles) { -%>
     this.initStyles();
+    <%_ } -%>
   }
 
+  <%_ if(useStyles) { -%>
   initStyles() {
-    <% if (showStyles) { %>
     window.System.import(this.panelPath + 'css/panel.base.css!');
     // Remove next lines if you don't need separate styles for light and dark themes
     if (grafanaBootData.user.lightTheme) {
@@ -31,8 +35,8 @@ class Ctrl extends PanelCtrl {
       window.System.import(this.panelPath + 'css/panel.dark.css!');
     }
     // Remove up to here
-    <% } %>
   }
+  <%_ } -%>
 
   get panelPath() {
     if (this._panelPath === undefined) {
@@ -40,7 +44,7 @@ class Ctrl extends PanelCtrl {
     }
     return this._panelPath;
   }
-  
+
 }
 
 Ctrl.templateUrl = 'partials/template.html';
