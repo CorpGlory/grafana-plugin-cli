@@ -10,14 +10,14 @@ import './css/panel.light.scss';
 
 class Ctrl extends PanelCtrl {
 
-  private _panelPath<%= isTypeScript ? ': string' : '' %>;
-  static templateUrl<%= isTypeScript ? ': string' : '' %>;
+  _panelPath<%- tsType('any')%>;
+  static templateUrl<%- tsType('any')%>;
 
-  constructor($scope<%= isTypeScript ? ': any' : '' %>, $injector<%= isTypeScript ? ': any' : '' %>) {
+  constructor($scope<%- tsType('any')%>, $injector<%- tsType('any')%>) {
     super($scope, $injector);
   }
 
-  link(scope<%= isTypeScript ? ': any' : '' %>, element<%= isTypeScript ? ': any' : '' %>) {
+  link(scope<%- tsType('any')%>, element<%- tsType('any')%>) {
     this.initStyles();
   }
 

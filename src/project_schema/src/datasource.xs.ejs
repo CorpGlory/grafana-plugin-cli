@@ -1,6 +1,8 @@
+ 
+
 export class GenericDatasource {
 
-  constructor(instanceSettings) {
+  constructor(instanceSettings<%- tsType('any')%>) {
     this.type = instanceSettings.type;
     this.url = instanceSettings.url;
     this.name = instanceSettings.name;
@@ -11,7 +13,7 @@ export class GenericDatasource {
     }
   }
 
-  async query(options) {
+  async query(options<%- tsType('any')%>) {
     const targets = options.targets.filter(t => !t.hide);
 
     if (targets.length <= 0) {
@@ -37,7 +39,7 @@ export class GenericDatasource {
     };
   }
 
-  metricFindQuery(options) {
+  metricFindQuery(options<%- tsType('any')%>) {
     return [
       {
         text: 'Metric Name',

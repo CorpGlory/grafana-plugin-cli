@@ -25,15 +25,25 @@ export default new FolderGenerator<TemplateOptions>('src', [
           srcExt('module.{ext}'),
           (ctx) => {
             ctx['showStyles'] = ctx.options.style !== null;
-            ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
+            ctx['tsType'] = function(type) {
+              return ctx.options.language === Language.TypeScript ? `: ${type}` : '';
+            };
           }
         )
       ]
     } else {
       return [
-        new TemplateGenerator(require('./module.xs.datasource.ejs'), srcExt('module.{ext}')),
+        new TemplateGenerator(require('./module.xs.datasource.ejs'),srcExt('module.{ext}')),
         new TemplateGenerator(require('./query_ctrl.xs.ejs'), srcExt('query_ctrl.{ext}')),
-        new TemplateGenerator(require('./datasource.xs.ejs'), srcExt('datasource.{ext}'))
+        new TemplateGenerator(
+          require('./datasource.xs.ejs'),
+          srcExt('datasource.{ext}'),
+          (ctx) => {
+            ctx['tsType'] = function(type) {
+              return ctx.options.language === Language.TypeScript ? `: ${type}` : '';
+            };
+          }
+        )
       ]
     }
   }
