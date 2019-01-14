@@ -2,6 +2,11 @@ import { QueryCtrl } from 'grafana/app/plugins/sdk';
 
 export class GenericDatasourceQueryCtrl extends QueryCtrl {
 
+  <%- tsCode('scope: any;') %>
+  <%- tsCode('target: any;') %>
+  <%- tsCode('templateUrl: string;') %>
+  
+
   constructor($scope<%- tsType('any')%>, $injector<%- tsType('any')%>)  {
     super($scope, $injector);
 

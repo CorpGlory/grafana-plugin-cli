@@ -41,6 +41,14 @@ export function srcExt(name: string) {
     name.replace('{ext}', languageToExtension(context.options.language))
 }
 
+export function tsCode(context) {
+  return (code) => context.options.language === Language.TypeScript ? code : '';
+}
+
+export function tsType(context) {
+  return (type) => context.options.language === Language.TypeScript ? `: ${type}` : '';
+}
+
 export class TemplateOptions {
   public id: string;
   public pluginName: string;

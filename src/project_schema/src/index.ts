@@ -1,7 +1,7 @@
 import partials from './partials';
 
 import { FolderGenerator, TemplateGenerator } from 'src/generators';
-import { TemplateOptions, PluginType, srcExt, Language } from 'src/template_options';
+import { TemplateOptions, PluginType, srcExt, tsCode, tsType } from 'src/template_options';
 
 
 export default new FolderGenerator<TemplateOptions>('src', [
@@ -25,23 +25,34 @@ export default new FolderGenerator<TemplateOptions>('src', [
           srcExt('module.{ext}'),
           (ctx) => {
             ctx['showStyles'] = ctx.options.style !== null;
-            ctx['tsType'] = function(type) {
-              return ctx.options.language === Language.TypeScript ? `: ${type}` : '';
-            };
+            ctx['tsType'] = tsType(ctx);
+            ctx['tsCode'] = tsCode(ctx);
           }
         )
       ]
     } else {
       return [
-        new TemplateGenerator(require('./module.xs.datasource.ejs'),srcExt('module.{ext}')),
-        new TemplateGenerator(require('./query_ctrl.xs.ejs'), srcExt('query_ctrl.{ext}')),
+        new TemplateGenerator(
+          require('./module.xs.datasource.ejs'),
+          srcExt('module.{ext}'),
+          (ctx) => {
+            ctx['tsCode'] = tsCode(ctx);
+          }
+        ),
         new TemplateGenerator(
           require('./datasource.xs.ejs'),
           srcExt('datasource.{ext}'),
           (ctx) => {
-            ctx['tsType'] = function(type) {
-              return ctx.options.language === Language.TypeScript ? `: ${type}` : '';
-            };
+            ctx['tsType'] = tsType(ctx);
+            ctx['tsCode'] = tsCode(ctx);
+          }
+        ),
+        new TemplateGenerator(
+          require('./query_ctrl.xs.ejs'),
+          srcExt('query_ctrl.{ext}'),
+          (ctx) => {
+            ctx['tsType'] = tsType(ctx);
+            ctx['tsCode'] = tsCode(ctx);
           }
         )
       ]
