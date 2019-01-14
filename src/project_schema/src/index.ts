@@ -1,7 +1,7 @@
 import partials from './partials';
 
 import { FolderGenerator, TemplateGenerator } from 'src/generators';
-import { TemplateOptions, PluginType, srcExt, tsCode, tsType } from 'src/template_options';
+import { TemplateOptions, PluginType, srcExt, tsCode, tsType, Language } from 'src/template_options';
 
 
 export default new FolderGenerator<TemplateOptions>('src', [
@@ -44,7 +44,7 @@ export default new FolderGenerator<TemplateOptions>('src', [
           srcExt('datasource.{ext}'),
           (ctx) => {
             ctx['tsType'] = tsType(ctx);
-            ctx['tsCode'] = tsCode(ctx);
+            ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
           }
         ),
         new TemplateGenerator(
@@ -52,7 +52,7 @@ export default new FolderGenerator<TemplateOptions>('src', [
           srcExt('query_ctrl.{ext}'),
           (ctx) => {
             ctx['tsType'] = tsType(ctx);
-            ctx['tsCode'] = tsCode(ctx);
+            ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
           }
         )
       ]

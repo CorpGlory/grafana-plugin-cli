@@ -1,10 +1,12 @@
 export class GenericDatasource {
 
-  <%- tsCode('type: string;') %>
-  <%- tsCode('url: string;') %>
-  <%- tsCode('name: string;') %>
-  <%- tsCode('headers: any;') %>
-  <%- tsCode('withCredentials: boolean;') %>
+  <%_ if(isTypeScript) { -%>
+  type: string;
+  url: string;
+  name: string;
+  headers: any;
+  withCredentials: boolean;
+  <%_ } -%>
 
   constructor(instanceSettings<%- tsType('any')%>) {
     this.type = instanceSettings.type;
