@@ -1,6 +1,6 @@
 {
-  "type": "<%= pluginType %>",
-  <% if(pluginType === 'datasource') { %>
+  "type": "<%= options.pluginType %>",
+  <% if(options.pluginType === 'datasource') { %>
   "metrics": true,
   "annotations": false,
   <% } %>

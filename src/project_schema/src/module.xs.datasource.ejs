@@ -1,6 +1,14 @@
 import { GenericDatasource } from './datasource';
 import { GenericDatasourceQueryCtrl } from './query_ctrl';
 
+<%_ if(useStyles) { -%>
+  import './css/panel.base.css';
+  // Remove next imports if you don't need separate styles for light and dark themes
+  import './css/panel.dark.css';
+  import './css/panel.light.css';
+  // Remove up to here
+  <%_ } -%>
+
 class GenericConfigCtrl {
   <%- tsCode('static templateUrl: string') %>
 }

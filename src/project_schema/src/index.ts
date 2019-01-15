@@ -8,17 +8,7 @@ import { TemplateOptions, PluginType, srcExt, ts, Style, Language } from 'src/te
 export default new FolderGenerator<TemplateOptions>('src', [
   css,
   partials,
-  new TemplateGenerator(
-    require('./plugin.json.ejs'), 
-    'plugin.json',
-    ctx => { 
-      if(ctx.options.pluginType === PluginType.Panel) {
-        ctx['pluginType'] = 'panel';
-      } else if(ctx.options.pluginType === PluginType.Datasource) {
-        ctx['pluginType'] = 'datasource';
-      }
-    }
-  ),
+  new TemplateGenerator(require('./plugin.json.ejs'), 'plugin.json'),
   context => {
     if(context.options.pluginType === PluginType.Panel) {
       return [
@@ -27,8 +17,7 @@ export default new FolderGenerator<TemplateOptions>('src', [
           srcExt('module.{ext}'),
           (ctx) => {
             ctx['useStyles'] = ctx.options.style !== Style.None;
-            ctx['tsType'] = ts.type(ctx);
-            ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
+            ts.bind(ctx);
           }
         )
       ]
@@ -38,23 +27,22 @@ export default new FolderGenerator<TemplateOptions>('src', [
           require('./module.xs.datasource.ejs'),
           srcExt('module.{ext}'),
           (ctx) => {
-            ctx['tsCode'] = ts.code(ctx);
+            ctx['useStyles'] = ctx.options.style !== Style.None;
+            ts.bind(ctx);
           }
         ),
         new TemplateGenerator(
           require('./datasource.xs.ejs'),
           srcExt('datasource.{ext}'),
           (ctx) => {
-            ctx['tsType'] = ts.type(ctx);
-            ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
+            ts.bind(ctx);
           }
         ),
         new TemplateGenerator(
           require('./query_ctrl.xs.ejs'),
           srcExt('query_ctrl.{ext}'),
           (ctx) => {
-            ctx['tsType'] = ts.type(ctx);
-            ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
+            ts.bind(ctx);
           }
         )
       ]
