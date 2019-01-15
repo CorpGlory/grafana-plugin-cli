@@ -81,29 +81,23 @@ export class FolderGenerator<T> implements IGenerator<T> {
   public async generate(context: GenerationContext<T>) {
     let folderName = resolveFunctionValue(this._folderName, context);
 
-    let innterContext: any = _.clone(context);
-    innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
-    innterContext = resolveContextModifier(innterContext, this._contextMap);
-    let innerGenerators = resolveFunctionArray(this._innerGenerators, context);
-
-    if (innterContext.options.overWriteDir === TemplateOptions.overWriteDir.true) {
-      await fs.rmdir(innterContext.workingDirectory);
-      await fs.mkdir(innterContext.workingDirectory);
-      await this.generateFiles(innerGenerators, innterContext)
-    } else if (innterContext.options.overWriteDir === TemplateOptions.overWriteDir.false) {
+    let innerContext: any = _.clone(context);
+    innerContext.workingDirectory = path.join(context.workingDirectory, folderName);
+    innerContext = resolveContextModifier(innerContext, this._contextMap);
+    
+    if(innerContext.options.overWriteDir === TemplateOptions.overWriteDir.true) {
+      await fs.rmdir(innerContext.workingDirectory);
+      await fs.mkdir(innerContext.workingDirectory);
+    } else if (innerContext.options.overWriteDir === TemplateOptions.overWriteDir.false) {
       console.log('Aborting');
-      process.exit(0)
+      process.exit(0);
     } else {
-      await fs.mkdir(innterContext.workingDirectory);
-      await this.generateFiles(innerGenerators, innterContext);
+      await fs.mkdir(innerContext.workingDirectory);
     }
+
+    let innerGenerators = resolveFunctionArray(this._innerGenerators, context);
+    await Promise.all(innerGenerators.map(g => g.generate(innerContext)));
+
   }
 
-  private async generateFiles(innerGenerators, innterContext) {
-    try {
-      return await Promise.all(innerGenerators.map(g => g.generate(innterContext)));
-    } catch(e) {
-      return;
-    }
-  }
 }
