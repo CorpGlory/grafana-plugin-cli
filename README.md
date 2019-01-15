@@ -22,7 +22,7 @@ In future following options are going to be supported:
 
 ## Usage
 
-```
+```bash
 git clone https://github.com/CorpGlory/grafana-plugin-cli.git
 cd grafana-plugin-cli
 npm install
@@ -39,6 +39,12 @@ Welcome to Grafana-plugin-cli
 ? Plugin Id: ID for plugin, by default will be <name>-<plugin type>
 ? Language: choose TypeScript or JavaScript. Types for TypeScript are included
 ? Styles type: choose CSS or No style. If CSS is selected, directory with base, light and dark stylesheets will be created
+```
+
+After plugin creation you can build it using:
+```bash
+npm install
+npm run build
 ```
 
 # How it works
