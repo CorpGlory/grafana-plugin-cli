@@ -96,8 +96,7 @@ export class TemplateOptions {
     if(this.style === undefined) {
       throw new Error('Missing style value');
     }
-    this.style = options.style ? options.style : null;
-    
+
     this.overWriteDir = options.overWriteDir;
   }
 
