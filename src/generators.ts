@@ -1,3 +1,5 @@
+import * as TemplateOptions from './template_options';
+
 import { fs } from 'src/utils';
 
 import * as ejs from 'ejs';
@@ -79,12 +81,21 @@ export class FolderGenerator<T> implements IGenerator<T> {
   public async generate(context: GenerationContext<T>) {
     let folderName = resolveFunctionValue(this._folderName, context);
 
-    let innterContext = _.clone(context);
-    innterContext.workingDirectory = path.join(context.workingDirectory, folderName);
-    innterContext = resolveContextModifier(innterContext, this._contextMap);
-
-    await fs.mkdir(innterContext.workingDirectory);
+    let innerContext: any = _.clone(context);
+    innerContext.workingDirectory = path.join(context.workingDirectory, folderName);
+    innerContext = resolveContextModifier(innerContext, this._contextMap);
     let innerGenerators = resolveFunctionArray(this._innerGenerators, context);
-    await Promise.all(innerGenerators.map(g => g.generate(innterContext)));
+    
+    if(innerContext.options.overWriteDir === true) {
+      await fs.rmdir(innerContext.workingDirectory);
+    } else if (innerContext.options.overWriteDir === false) {
+      console.log('Aborting');
+      process.exit(0);
+    } 
+    
+    await fs.mkdir(innerContext.workingDirectory);
+    await Promise.all(innerGenerators.map(g => g.generate(innerContext)));
+
   }
+
 }

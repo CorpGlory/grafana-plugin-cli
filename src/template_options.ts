@@ -69,6 +69,7 @@ export class TemplateOptions {
   public framework: Framework;
   public language: Language;
   public style?: Style;
+  public overWriteDir: boolean;
   
   constructor(options: any) {
     this.id = options.id;
@@ -95,6 +96,8 @@ export class TemplateOptions {
     if(this.style === undefined) {
       throw new Error('Missing style value');
     }
+
+    this.overWriteDir = options.overWriteDir;
   }
 
 }

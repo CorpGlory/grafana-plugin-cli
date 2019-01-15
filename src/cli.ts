@@ -1,7 +1,9 @@
 import * as TemplateOptions from './template_options';
 import * as _ from 'lodash';
+import * as path from 'path';
 
 import * as inquirer from 'inquirer';
+import { fs } from './utils';
 
 
 const QUESTIONS_DB = {
@@ -54,6 +56,14 @@ const QUESTIONS_DB = {
       // SASS is not supported yet
       // { name: 'SASS', value: TemplateOptions.Style.SASS }
     ]
+  },
+  overWriteDir: {
+    type: 'list',
+    message: 'Directory already exists. Overwrite?',
+    choices: [
+      { name: 'Yes', value: true},
+      { name: 'No', value: false },
+    ]
   }
 
 }
@@ -78,6 +88,12 @@ function* questionsGen(options: any): IterableIterator<inquirer.Question> {
     yield g('framework');
   }
   yield g('style');
+  
+  let dirPath = path.resolve(process.cwd(), options.id)
+  if(fs.exists(dirPath)) {
+    yield g('overWriteDir');
+  }
+  
 }
 
 export async function collectUserInput(): Promise<TemplateOptions.TemplateOptions> {
