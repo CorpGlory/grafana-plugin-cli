@@ -30,7 +30,7 @@ npm run build
 npm start
 ```
 
-Use follow interface for project creating:
+## Options description
 ```
 -----------------------------
 Welcome to Grafana-plugin-cli
