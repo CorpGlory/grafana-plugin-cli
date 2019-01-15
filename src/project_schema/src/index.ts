@@ -9,43 +9,32 @@ export default new FolderGenerator<TemplateOptions>('src', [
   css,
   partials,
   new TemplateGenerator(require('./plugin.json.ejs'), 'plugin.json'),
+  context => new TemplateGenerator(
+    require(`./${context.options.pluginType}/module.xs.ejs`),
+    srcExt('module.{ext}'),
+    (ctx) => {
+      ctx['useStyles'] = ctx.options.style !== Style.None;
+      ts.bind(ctx);
+    }
+  ),
   context => {
-    if(context.options.pluginType === PluginType.Panel) {
+    if(context.options.pluginType === PluginType.Datasource) {
       return [
         new TemplateGenerator(
-          require('./module.xs.panel.ejs'),
-          srcExt('module.{ext}'),
-          (ctx) => {
-            ctx['useStyles'] = ctx.options.style !== Style.None;
-            ts.bind(ctx);
-          }
-        )
-      ]
-    } else {
-      return [
-        new TemplateGenerator(
-          require('./module.xs.datasource.ejs'),
-          srcExt('module.{ext}'),
-          (ctx) => {
-            ctx['useStyles'] = ctx.options.style !== Style.None;
-            ts.bind(ctx);
-          }
-        ),
-        new TemplateGenerator(
-          require('./datasource.xs.ejs'),
+          require('./datasource/datasource.xs.ejs'),
           srcExt('datasource.{ext}'),
           (ctx) => {
             ts.bind(ctx);
           }
         ),
         new TemplateGenerator(
-          require('./query_ctrl.xs.ejs'),
+          require('./datasource/query_ctrl.xs.ejs'),
           srcExt('query_ctrl.{ext}'),
           (ctx) => {
             ts.bind(ctx);
           }
         )
-      ]
+      ];
     }
   }
 ]);
