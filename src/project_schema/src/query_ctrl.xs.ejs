@@ -6,6 +6,7 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
   scope: any;
   target: any;
   static templateUrl: string;
+  private _datasourcePath: string;
   <%_ } -%>
   
 
@@ -15,8 +16,22 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
     this.scope = $scope;
     this.target.target = this.target.target || 'select metric';
     this.target.type = this.target.type || 'timeserie';
+
+    this.initStyles();
   }
 
+  <%_ if(useStyles) { -%>
+  initStyles() {
+    window.System.import(this.datasourcePath + 'css/datasource.base.css!');
+    // Remove next lines if you don't need separate styles for light and dark themes
+    if (window.grafanaBootData.user.lightTheme) {
+    window.System.import(this.datasourcePath + 'css/datasource.light.css!');
+    } else {
+    window.System.import(this.datasourcePath + 'css/datasource.dark.css!');
+    }
+  }
+  <%_ } -%>
+  
   getOptions(query<%- tsType('any')%>) {
     return this.datasource.metricFindQuery(query || '');
   }
@@ -27,6 +42,13 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
 
   onChangeInternal() {
     this.panelCtrl.refresh(); // Asks the panel to refresh data.
+  }
+
+  get datasourcePath() {
+    if (this._datasourcePath === undefined) {
+      this._datasourcePath = `/public/plugins/${this.datasource.type}/`;
+    }
+    return this._datasourcePath;
   }
 }
 
