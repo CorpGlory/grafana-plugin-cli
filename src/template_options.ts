@@ -1,10 +1,17 @@
 import { GenerationContext } from 'src/generators';
 
+<<<<<<< HEAD
 export enum PluginType { Datasource = 1, Panel }
 export enum Framework { Angular = 1, React }
 export enum Language { JavaScript = 1, TypeScript }
 export enum Style { CSS = 1, SASS }
 export enum overWriteDir { true = 1, false }
+=======
+export enum PluginType { Datasource = 'datasource', Panel = 'panel' }
+export enum Framework { Angular = 'angular', React = 'react' }
+export enum Language { JavaScript = 'javascript', TypeScript = 'typescript' }
+export enum Style { CSS = 'css', SASS = 'sass', None = 'none' }
+>>>>>>> master
 
 
 export function getDefaultId(options: any): string {
@@ -42,6 +49,27 @@ export function srcExt(name: string) {
     name.replace('{ext}', languageToExtension(context.options.language))
 }
 
+export namespace ts {
+  function tsCode(context: GenerationContext<TemplateOptions>) {
+    return (code) => context.options.language === Language.TypeScript ? code : '';
+  }
+
+  function tsType(context: GenerationContext<TemplateOptions>) {
+    return (type) => context.options.language === Language.TypeScript ? `: ${type}` : '';
+  }
+
+  function isTypeScript(context: GenerationContext<TemplateOptions>) {
+    return context.options.language === Language.TypeScript;
+  }
+
+  export function bind(context: GenerationContext<TemplateOptions>) {
+    context['tsCode'] = tsCode(context);
+    context['tsType'] = tsType(context);
+    context['isTypeScript'] = isTypeScript(context);
+    return context;
+  }
+}
+
 export class TemplateOptions {
   public id: string;
   public pluginName: string;
@@ -70,10 +98,12 @@ export class TemplateOptions {
     }
     this.language = options.language;
     if(this.language === undefined) {
-      throw new Error('Missing laguage value');
+      throw new Error('Missing language value');
     }
-    this.style = options.style ? options.style : null;
-
+    this.style = options.style;
+    if(this.style === undefined) {
+      throw new Error('Missing style value');
+    }
     this.overWriteDir = options.overWriteDir;
   }
 

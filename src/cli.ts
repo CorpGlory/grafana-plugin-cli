@@ -35,7 +35,8 @@ const QUESTIONS_DB = {
     message: 'UI Framework:',
     choices: [
       { name: 'AngularJS', value: TemplateOptions.Framework.Angular },
-      { name: 'React', value: TemplateOptions.Framework.React }
+      // React is not supported yet
+      // { name: 'React', value: TemplateOptions.Framework.React }
     ]
   },
   language: {
@@ -50,9 +51,10 @@ const QUESTIONS_DB = {
     type: 'list',
     message: 'Styles type:',
     choices: [
-      { name: '(no styles)', value: null },
+      { name: '(no styles)', value: TemplateOptions.Style.None },
       { name: 'CSS', value: TemplateOptions.Style.CSS },
-      { name: 'SASS', value: TemplateOptions.Style.SASS }
+      // SASS is not supported yet
+      // { name: 'SASS', value: TemplateOptions.Style.SASS }
     ]
   },
   overWriteDir: {
@@ -89,6 +91,7 @@ function* questionsGen(options: any): IterableIterator<inquirer.Question> {
   if(fs.exists(dirPath)) {
     yield g('overWriteDir');
   }
+  yield g('style');
 }
 
 export async function collectUserInput(): Promise<TemplateOptions.TemplateOptions> {
