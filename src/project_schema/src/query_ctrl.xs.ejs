@@ -2,7 +2,14 @@ import { QueryCtrl } from 'grafana/app/plugins/sdk';
 
 export class GenericDatasourceQueryCtrl extends QueryCtrl {
 
-  constructor($scope, $injector)  {
+  <%_ if(isTypeScript) { -%>
+  scope: any;
+  target: any;
+  static templateUrl: string;
+  <%_ } -%>
+  
+
+  constructor($scope<%- tsType('any')%>, $injector<%- tsType('any')%>)  {
     super($scope, $injector);
 
     this.scope = $scope;
@@ -10,7 +17,7 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
     this.target.type = this.target.type || 'timeserie';
   }
 
-  getOptions(query) {
+  getOptions(query<%- tsType('any')%>) {
     return this.datasource.metricFindQuery(query || '');
   }
 

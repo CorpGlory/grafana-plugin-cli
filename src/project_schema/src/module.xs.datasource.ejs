@@ -1,7 +1,9 @@
 import { GenericDatasource } from './datasource';
 import { GenericDatasourceQueryCtrl } from './query_ctrl';
 
-class GenericConfigCtrl { }
+class GenericConfigCtrl {
+  <%- tsCode('static templateUrl: string') %>
+}
 GenericConfigCtrl.templateUrl = 'partials/config.html';
 
 export {
