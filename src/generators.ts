@@ -89,14 +89,21 @@ export class FolderGenerator<T> implements IGenerator<T> {
     if (innterContext.options.overWriteDir === TemplateOptions.overWriteDir.true) {
       await fs.rmdir(innterContext.workingDirectory);
       await fs.mkdir(innterContext.workingDirectory);
-      await Promise.all(innerGenerators.map(g => g.generate(innterContext)));
+      await this.generateFiles(innerGenerators, innterContext)
     } else if (innterContext.options.overWriteDir === TemplateOptions.overWriteDir.false) {
       console.log('Aborting');
       process.exit(0)
     } else {
       await fs.mkdir(innterContext.workingDirectory);
-      await Promise.all(innerGenerators.map(g => g.generate(innterContext)));
+      await this.generateFiles(innerGenerators, innterContext);
     }
+  }
 
+  private async generateFiles(innerGenerators, innterContext) {
+    try {
+      return await Promise.all(innerGenerators.map(g => g.generate(innterContext)));
+    } catch(e) {
+      return;
+    }
   }
 }
