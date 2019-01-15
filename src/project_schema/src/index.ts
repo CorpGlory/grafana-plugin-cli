@@ -35,6 +35,8 @@ export default new FolderGenerator<TemplateOptions>('src', [
           }
         )
       ];
+    } else {
+      return [];
     }
   }
 ]);
