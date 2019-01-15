@@ -8,17 +8,18 @@ No build configuration needed.
 Just run CLI commands and choose whether your plugin will be:
 - Panel / Datasource
 - TypeScript / JavaScript
-- AngularJS / React
-- CSS / SASS / No styles
-- ... etc
+- AngularJS
+- CSS / No styles
 
-Based upon grafana template webpack plugin https://github.com/CorpGlory/grafana-plugin-template-webpack.
-
-In future following options are going to be supported:
+Following options are going to be supported:
 * SASS
 * React
 * MetricPanel
 * Application.
+
+Based upon grafana template webpack plugin https://github.com/CorpGlory/grafana-plugin-template-webpack.
+
+
 
 ## Usage
 
