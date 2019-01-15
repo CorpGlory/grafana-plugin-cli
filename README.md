@@ -12,6 +12,11 @@ Just run CLI commands and choose wether your plugin will be:
 
 Based upon grafana template webpack plugin https://github.com/CorpGlory/grafana-plugin-template-webpack.
 
+In future follow plugins and templates will be supported:
+* SASS
+* React
+* MetricPanel
+* Application.
 
 ## Usage
 
@@ -21,6 +26,17 @@ cd grafana-plugin-cli
 npm install
 npm run build
 npm start
+```
+
+Use follow interface for project creating:
+```
+-----------------------------
+Welcome to Grafana-plugin-cli
+? Plugin name: choose name for your plugin. this name will be displayed on 'Plugins' tab in Grafana
+? Plugin type: choose Datasource or Panel plugin type
+? Plugin Id: ID for plugin, by default will be <name>-<plugin type>
+? Language: choose TypeScript or JavaScript language. For TypeScript types will be added
+? Styles type: choose CSS or No-style. If CSS selected, directory with base, light, dark themes will be created
 ```
 
 # How it works
