@@ -8,7 +8,7 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
   static templateUrl: string;
   private _datasourcePath: string;
   <%_ } -%>
-  
+
 
   constructor($scope<%- tsType('any')%>, $injector<%- tsType('any')%>)  {
     super($scope, $injector);
@@ -16,8 +16,9 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
     this.scope = $scope;
     this.target.target = this.target.target || 'select metric';
     this.target.type = this.target.type || 'timeserie';
-
+    <%_ if(useStyles) { -%>
     this.initStyles();
+    <%_ } -%>
   }
 
   <%_ if(useStyles) { -%>
@@ -31,7 +32,7 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
     }
   }
   <%_ } -%>
-  
+
   getOptions(query<%- tsType('any')%>) {
     return this.datasource.metricFindQuery(query || '');
   }
