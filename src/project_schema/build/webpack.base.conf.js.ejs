@@ -30,8 +30,9 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new CopyWebpackPlugin([
       { from: 'plugin.json' },
-      { from: 'partials/*' },
+      { from: 'partials/*' }<%_ if(useStyles) { -%>,
       { from: 'css/*' }
+      <%_ } -%>
     ])
   ],
   resolve: {
@@ -53,16 +54,7 @@ module.exports = {
             ]
           }
         }
-      }<%_ if(useStyles) { -%>,
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
-      }
-      <%_ } -%>
-      <%_ if(extension === 'ts') { -%>,
+      }<%_ if(extension === 'ts') { -%>,
       {
         test: /\.tsx?$/,
         loaders: [
