@@ -1,9 +1,9 @@
 import { GenerationContext } from 'src/generators';
 
-export enum PluginType { Datasource = 1, Panel }
-export enum Framework { Angular = 1, React }
-export enum Language { JavaScript = 1, TypeScript }
-export enum Style { CSS = 1, SASS, None }
+export enum PluginType { Datasource = 'datasource', Panel = 'panel' }
+export enum Framework { Angular = 'angular', React = 'react' }
+export enum Language { JavaScript = 'javascript', TypeScript = 'typescript' }
+export enum Style { CSS = 'css', SASS = 'sass', None = 'none' }
 
 
 export function getDefaultId(options: any): string {
@@ -42,12 +42,23 @@ export function srcExt(name: string) {
 }
 
 export namespace ts {
-  export function code(context) {
+  function tsCode(context: GenerationContext<TemplateOptions>) {
     return (code) => context.options.language === Language.TypeScript ? code : '';
   }
 
-  export function type(context) {
+  function tsType(context: GenerationContext<TemplateOptions>) {
     return (type) => context.options.language === Language.TypeScript ? `: ${type}` : '';
+  }
+
+  function isTypeScript(context: GenerationContext<TemplateOptions>) {
+    return context.options.language === Language.TypeScript;
+  }
+
+  export function bind(context: GenerationContext<TemplateOptions>) {
+    context['tsCode'] = tsCode(context);
+    context['tsType'] = tsType(context);
+    context['isTypeScript'] = isTypeScript(context);
+    return context;
   }
 }
 

@@ -77,12 +77,7 @@ function* questionsGen(options: any): IterableIterator<inquirer.Question> {
   } else {
     yield g('framework');
   }
-  // Styles for datasources are not supported yet
-  if(options.pluginType === TemplateOptions.PluginType.Datasource) {
-    options.style = TemplateOptions.Style.None;
-  } else {
-    yield g('style');
-  }
+  yield g('style');
 }
 
 export async function collectUserInput(): Promise<TemplateOptions.TemplateOptions> {
