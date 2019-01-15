@@ -9,9 +9,8 @@ export default new FolderGenerator<TemplateOptions>(context => context.options.i
   new TemplateGenerator(
     require('./package.json.ejs'),
     'package.json',
-    (ctx) => {
+    ctx => {
       ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
-      ctx['useStyles'] = ctx.options.style !== Style.None;
     }
   ),
   new TemplateGenerator(require('./.gitignore.ejs'), '.gitignore'),
