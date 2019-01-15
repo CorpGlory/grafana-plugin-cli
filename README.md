@@ -41,7 +41,7 @@ Welcome to Grafana-plugin-cli
 ? Styles type: choose CSS or No style. If CSS is selected, directory with base, light and dark stylesheets will be created
 ```
 
-After plugin creation you can build it using:
+You can build plugin after creation using:
 ```bash
 npm install
 npm run build
