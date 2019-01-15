@@ -61,8 +61,8 @@ const QUESTIONS_DB = {
     type: 'list',
     message: 'Directory already exists. Overwrite?',
     choices: [
-      { name: 'Yes', value: TemplateOptions.overWriteDir.true},
-      { name: 'No', value: TemplateOptions.overWriteDir.false },
+      { name: 'Yes', value: true},
+      { name: 'No', value: false },
     ]
   }
 
@@ -87,11 +87,13 @@ function* questionsGen(options: any): IterableIterator<inquirer.Question> {
   } else {
     yield g('framework');
   }
+  yield g('style');
+  
   let dirPath = path.resolve(process.cwd(), options.id)
   if(fs.exists(dirPath)) {
     yield g('overWriteDir');
   }
-  yield g('style');
+  
 }
 
 export async function collectUserInput(): Promise<TemplateOptions.TemplateOptions> {

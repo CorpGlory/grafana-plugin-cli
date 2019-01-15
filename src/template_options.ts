@@ -1,17 +1,9 @@
 import { GenerationContext } from 'src/generators';
 
-<<<<<<< HEAD
-export enum PluginType { Datasource = 1, Panel }
-export enum Framework { Angular = 1, React }
-export enum Language { JavaScript = 1, TypeScript }
-export enum Style { CSS = 1, SASS }
-export enum overWriteDir { true = 1, false }
-=======
 export enum PluginType { Datasource = 'datasource', Panel = 'panel' }
 export enum Framework { Angular = 'angular', React = 'react' }
 export enum Language { JavaScript = 'javascript', TypeScript = 'typescript' }
 export enum Style { CSS = 'css', SASS = 'sass', None = 'none' }
->>>>>>> master
 
 
 export function getDefaultId(options: any): string {
