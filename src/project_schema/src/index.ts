@@ -28,7 +28,7 @@ export default new FolderGenerator<TemplateOptions>('src', [
           (ctx) => {
             ctx['useStyles'] = ctx.options.style !== Style.None;
             ctx['tsType'] = ts.type(ctx);
-            ctx['tsCode'] = ts.code(ctx);
+            ctx['isTypeScript'] = ctx.options.language === Language.TypeScript;
           }
         )
       ]
